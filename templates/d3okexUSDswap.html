@@ -1,0 +1,2047 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel ="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+    <title> Open Interest </title>
+
+    <!--
+    <ul>
+        <li><a id = "oi" href="/d3bitmex">Open Interest</a></li>
+        <li><a href="/d3bitmexliquidations">Liquidations</a></li>
+        <li><a href="/d3Prices">Prices</a></li>
+        <li><a href="/d3Volume">Volume</a></li>
+      </ul>
+
+  </head>
+  <body>
+ 
+    <a id = "bitmex" href = "/d3bitmex"> bitmex </a>
+    <a id = "binance" href = "/d3binance"> binance </a>
+    <a id = "bybit" href = "/d3bybit"> bybit </a>
+    <a id = "ftx" href = "/d3ftx"> FTX </a>
+    <a id = "huobi" href = "/d3huobi"> huobi </a>
+    <a id = "okex" href = "/d3okexUSDswap"> okex </a>
+    <a id = "deribit" href = "/d3deribit"> deribit </a>
+
+  -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
+    <div class="container">
+      <a href="/d3bitmex" class="navbar-brand font-weight-bold">Data Visualization</a>
+      <button type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+  
+  
+      <div id="navbarContent" class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <!-- Level one dropdown -->
+          <li class="nav-item dropdown">
+            <a id="dropdownMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Open Interest</a>
+            <ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
+              <li><a href="/d3bitmex" class="dropdown-item">Bitmex </a></li>
+              <li><a href="/d3binance" class="dropdown-item">Binance</a></li>
+              <li><a href="/d3bybit" class="dropdown-item">Bybit</a></li>
+              <li><a href="/d3ftx" class="dropdown-item">FTX</a></li>
+              <li><a href="/d3huobi" class="dropdown-item">Huobi</a></li>
+              <li><a href="/d3deribit" class="dropdown-item">Deribit</a></li>
+  
+              <li class="dropdown-divider"></li>
+  
+              <!-- Level two dropdown-->
+              <li class="dropdown-submenu">
+                <a id="dropdownMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Okex</a>
+                <ul aria-labelledby="dropdownMenu2" class="dropdown-menu border-0 shadow">
+                  <li>
+                    <a tabindex="-1" href="/d3okexUSDswap" class="dropdown-item">Coin Margined Swap</a>
+                  </li>
+  
+               
+  
+                  <li><a href="/d3okexUSDTswap" class="dropdown-item">USDT Margined Swap</a></li>
+                  <li><a href="/d3okexUSDfutures" class="dropdown-item">Coin Margined Futures</a></li>
+                  <li><a href="/d3okexUSDTfutures" class="dropdown-item">USDT Margined Futures</a></li>
+                </ul>
+              </li>
+              <!-- End Level two -->
+              
+              
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a id="dropdownMenu5" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle"> Aggregative Open Interest</a>
+                     <ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
+                        <li><a href="/d3btc-oi" class="dropdown-item">BTC </a></li>
+                        <li><a href="/d3eth-oi" class="dropdown-item">ETH</a></li>
+                        <li><a href="/d3xrp-oi" class="dropdown-item">XRP</a></li>
+                        <li><a href="/d3bch-oi" class="dropdown-item">BCH</a></li>
+                        <li><a href="/d3bsv-oi" class="dropdown-item">BSV</a></li>
+                        <li><a href="/d3ltc-oi" class="dropdown-item">LTC</a></li>
+                        <li><a href="/d3bnb-oi" class="dropdown-item">BNB</a></li>
+                        <li><a href="/d3trx-oi" class="dropdown-item">TRX</a></li>
+                        <li><a href="/d3eos-oi" class="dropdown-item">EOS</a></li>
+                        <li><a href="/d3open-interest" class="dropdown-item">Custom</a></li>
+
+                       <!-- <li><a href="/d3ftxliquidations" class="dropdown-item">FTX</a></li>-->
+                       
+                       <!-- End Level two -->
+                       
+                       
+                     </ul>
+                     </li>
+          <!-- End Level one -->
+                  <li class="nav-item dropdown">
+   <a id="dropdownMenu3" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Liquidations</a>
+            <ul aria-labelledby="dropdownMenu3" class="dropdown-menu border-0 shadow">
+              <li><a href="/d3bitmexliquidations" class="dropdown-item">Bitmex </a></li>
+              <li><a href="/d3binanceliquidations" class="dropdown-item">Binance</a></li>
+              <li><a href="/d3okexliquidations" class="dropdown-item">Okex</a></li>
+              <li><a href="/d3ftxliquidations" class="dropdown-item">FTX</a></li>
+              
+              <!-- End Level two -->
+              
+              
+            </ul>
+            </li>
+           
+            <li class="nav-item dropdown">
+   <a id="dropdownMenu4" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Volume</a>
+            <ul aria-labelledby="dropdownMenu4" class="dropdown-menu border-0 shadow">
+              <li><a href="/d3bitmexvolume" class="dropdown-item">Bitmex </a></li>
+              
+              <!-- End Level two -->
+              
+              
+            </ul>
+            </li>
+         
+          <li class="nav-item"><a href="/d3Prices" class="nav-link">Prices</a></li>
+
+          <li class="nav-item"> <button> <a  id = "okex" class="nav-link">Refresh Okex</a></li> </button>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <script>
+      $(function() {
+  // ------------------------------------------------------- //
+  // Multi Level dropdowns
+  // ------------------------------------------------------ //
+  $("ul.dropdown-menu [data-toggle='dropdown']").on("click", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    $(this).siblings().toggleClass("show");
+
+
+    if (!$(this).next().hasClass('show')) {
+      $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+    }
+    $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
+      $('.dropdown-submenu .show').removeClass("show");
+    });
+
+  });
+});
+  </script>
+  <style>
+       ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+li {
+  display: inline;
+}
+        body {
+          font: 14px sans-serif;
+          position: absolute;
+          margin-left:40px;
+        }
+        
+        .bar{
+            fill: grey;
+            opacity: .8;
+        }
+         
+        .axis path,
+        .axis line {
+          fill: none;
+          stroke: #000;
+          shape-rendering: crispEdges;
+        }
+        
+        .line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+.axisSteelBlue text{
+  fill: steelblue;
+}
+
+.axisRed text{
+  fill: red;
+}
+        
+        .tooltip {
+          position: absolute;
+          width: 200px;
+          height: 28px;
+          pointer-events: none;
+        }
+
+      .dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu>a:after {
+  content: "0da";
+  float: right;
+  border: none;
+}
+
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: 0px;
+  margin-left: 0px;
+}
+  </style>
+
+  <body>
+
+
+<br> okex BTC-USD-SWAP OI in USD (converted from contracts)
+<button id = "1h" onclick="update12('1h')">  1 Hour </button>
+    <button id = "2h" onclick="update12('2h')">  2 Hours </button>
+    <button id = "12h" onclick="update12('12h')">  12 Hours </button>
+    <button id = "1d" onclick="update12('1d')">  1 Day </button>
+    <button id = "1d" onclick="update12('3d')">  3 Days </button>
+    <label>
+        <input id="check12" type="checkbox" > Coin Denominated
+      </label>
+
+    <br>
+    <svg id = "svg12" width="890" height="450"></svg>
+
+   <script> 
+
+    $(function() {
+          $('a#okex').bind('click', function() {
+            $.getJSON('/refresh_okex',
+                function(data) {
+            });
+            return false;
+          });
+        });
+
+
+    const svg12 = d3.select('#svg12');
+
+    const xValue = d => d.date;
+      const xLabel = 'Time';
+      const yValue = d => d.value;
+      const yLabel = 'Open Interest';
+      const margin = { left: 100, right: 100, top: 20, bottom: 140 };
+      var parseTime = d3.timeParse("%Y-%m-%dT%H:%M:%S");
+      const width = svg12.attr('width');
+      const height = svg12.attr('height');
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+
+      var y1 = d3.scaleLinear().range([innerHeight, 0]);
+      var x = d3.scaleTime().range([0, innerWidth])
+
+      var valueline2 = d3.line()
+        .x(function(d) { return x(d.date); })
+        .y(function(d) { return y1(d.price); });
+
+              
+
+    function update12(selectedVar){
+        var isChecked = document.getElementById("check12").checked;
+        svg12.selectAll("*").remove();
+
+
+if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+            
+
+            //d3.selectAll('svg2 > *').remove();
+
+
+      const g12 = svg12.append('g')
+          .attr('transform', `translate(${margin.left},${margin.top})`);
+      const xAxisG = g12.append('g')
+          .attr('transform', `translate(0, ${innerHeight})`);
+      const yAxisG = g12.append('g');
+
+      xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+
+
+
+        d3.csv("/static/js/open-interest-price/okex-" + selectedVar + "-BTC-USD-SWAP-open-interest-price.csv", function(error, data) {
+      if (error) throw error;
+    
+      // format the data
+      data.forEach(function(d) {
+          d.date = parseTime(d.date);
+          d.price = +d.price;
+          d.oi = +d.oi;
+      });
+    
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y1.domain([d3.min(data, function(d) {return Math.min(d.price);}), d3.max(data, function(d) {return Math.max(d.price); })]);
+    
+      var tempWidth = innerWidth + 100 
+
+      // Add the valueline2 path.
+      svg12.append("path")
+          .data([data])
+          .attr("class", "line")
+          .attr("id", "redLine12")
+          .style("stroke", "red")
+          .attr("d", valueline2)
+          .attr("transform", "translate( 100" + ", 20 )");
+    
+    
+      // Add the Y1 Axis
+      svg12.append("g")
+          .attr("class", "axisRed")
+          .attr("transform", "translate( " + tempWidth + ", 20 )")
+          .attr("id", "redAxis12")
+          .call(d3.axisRight(y1));
+    
+    });
+    
+
+  // add the red line legend
+  svg12.append("text")
+     .attr("x", innerWidth + 40)             
+     .attr("y", margin.top - 10)    
+     .attr("class", "legend")
+     .style("fill", "red")         
+     .on("click", function(){
+       // determine if current line is visible
+       var active   = redLine12.active ? false : true,
+       newOpacity = active ? 0 : 1;
+       // hide or show the elements
+       d3.select("#redLine12").style("opacity", newOpacity);
+       d3.select("#redAxis12").style("opacity", newOpacity);
+       // update whether or not the elements are active
+       redLine12.active = active;
+     })
+     .text("Price Line");
+
+
+
+        d3.csv('/static/js/open-interest/okex-' + selectedVar + '-BTC-USD-SWAP-open-interest-' +file_name+ '.csv', row, data => {
+           xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();
+
+            g12.selectAll('circle').data(data)
+            .enter().append('circle')
+                .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+            xAxisG.call(xAxis);
+            yAxisG.call(yAxis);
+        });
+      }
+      update12('2h');
+    </script>
+  <br> okex BTC-USD-SWAP in USD (converted from contracts) <button id = "1h" onclick="update0('1h')"> 1 Hour </button><button id = "2h" onclick="update0('2h')"> 2 Hours </button><button id = "12h" onclick="update0('12h')"> 12 Hours </button><button id = "1d" onclick="update0('1d')"> 1 Day </button><button id = "3d" onclick="update0('3d')"> 3 Days </button> <label> <input id = "check0" type = "checkbox"> Coin Denominated </label> <br><svg id = "svg0" width = "890" height = "450"> </svg> <script> const svg0 = d3.select("#svg0");function update0(selectedVar){var isChecked = document.getElementById("check0").checked;
+if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+const width = svg0.attr('width'); 
+const height = svg0.attr('height'); 
+ const innerWidth = width - margin.left - margin.right; 
+ const innerHeight = height - margin.top - margin.bottom; 
+svg0.selectAll("*").remove(); 
+const g0= svg0.append('g') 
+.attr('transform', `translate(${margin.left},${margin.top})`); 
+const xAxisG = g0.append('g') 
+ .attr('transform', `translate(0, ${innerHeight})`); 
+const yAxisG = g0.append('g') 
+ xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+d3.csv("/static/js/open-interest-price/okex-" + selectedVar + "-BTC-USD-SWAP-open-interest-price.csv", function(error,data){  if (error) throw error;
+    
+      // format the data
+      data.forEach(function(d) {
+          d.date = parseTime(d.date);
+          d.price = +d.price;
+          d.oi = +d.oi;
+      });
+    
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y1.domain([d3.min(data, function(d) {return Math.min(d.price);}), d3.max(data, function(d) {return Math.max(d.price); })]);
+    
+      var tempWidth = innerWidth + 100 
+svg0.append("path")
+                        .data([data])
+                        .attr("class","line")
+                        .attr("id", "redLine0")
+                        .style("stroke", "red")
+                        .attr("d", valueline2)
+                        .attr("transform", "translate( 100" + ",20)");
+                    svg0.append("g")
+                        .attr("class","axisRed")
+                        .attr("transform", "translate( " + tempWidth + ", 20 )")
+                        .attr("id", "redAxis0")
+                        .call(d3.axisRight(y1)); });
+                    svg0.append("text")
+                        .attr("x", innerWidth + 40)             
+                        .attr("y", margin.top - 10)    
+                        .attr("class", "legend")
+                        .style("fill", "red")         
+                        .on("click", function(){
+                            var active = redLine0.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        d3.select("#redLine0").style("opacity", newOpacity); 
+                        d3.select("#redAxis0").style("opacity", newOpacity);
+                        redLine0.active = active;})
+                        .text("Price Line"); 
+d3.csv("/static/js/open-interest/okex-" + selectedVar + "-BTC-USD-SWAP-open-interest-" + file_name + ".csv", row, data => {  xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();g0.selectAll('circle').data(data).enter().append('circle')
+                        .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+                xAxisG.call(xAxis);
+                yAxisG.call(yAxis);
+                });
+                }
+                update0('2h');</script><br> okex LTC-USD-SWAP in USD (converted from contracts) <button id = "1h" onclick="update1('1h')"> 1 Hour </button><button id = "2h" onclick="update1('2h')"> 2 Hours </button><button id = "12h" onclick="update1('12h')"> 12 Hours </button><button id = "1d" onclick="update1('1d')"> 1 Day </button><button id = "3d" onclick="update1('3d')"> 3 Days </button> <label> <input id = "check1" type = "checkbox"> Coin Denominated </label> <br><svg id = "svg1" width = "890" height = "450"> </svg> <script> const svg1 = d3.select("#svg1");function update1(selectedVar){var isChecked = document.getElementById("check1").checked;
+if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+const width = svg1.attr('width'); 
+const height = svg1.attr('height'); 
+ const innerWidth = width - margin.left - margin.right; 
+ const innerHeight = height - margin.top - margin.bottom; 
+svg1.selectAll("*").remove(); 
+const g1= svg1.append('g') 
+.attr('transform', `translate(${margin.left},${margin.top})`); 
+const xAxisG = g1.append('g') 
+ .attr('transform', `translate(0, ${innerHeight})`); 
+const yAxisG = g1.append('g') 
+ xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+d3.csv("/static/js/open-interest-price/okex-" + selectedVar + "-LTC-USD-SWAP-open-interest-price.csv", function(error,data){  if (error) throw error;
+    
+      // format the data
+      data.forEach(function(d) {
+          d.date = parseTime(d.date);
+          d.price = +d.price;
+          d.oi = +d.oi;
+      });
+    
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y1.domain([d3.min(data, function(d) {return Math.min(d.price);}), d3.max(data, function(d) {return Math.max(d.price); })]);
+    
+      var tempWidth = innerWidth + 100 
+svg1.append("path")
+                        .data([data])
+                        .attr("class","line")
+                        .attr("id", "redLine1")
+                        .style("stroke", "red")
+                        .attr("d", valueline2)
+                        .attr("transform", "translate( 100" + ",20)");
+                    svg1.append("g")
+                        .attr("class","axisRed")
+                        .attr("transform", "translate( " + tempWidth + ", 20 )")
+                        .attr("id", "redAxis1")
+                        .call(d3.axisRight(y1)); });
+                    svg1.append("text")
+                        .attr("x", innerWidth + 40)             
+                        .attr("y", margin.top - 10)    
+                        .attr("class", "legend")
+                        .style("fill", "red")         
+                        .on("click", function(){
+                            var active = redLine1.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        d3.select("#redLine1").style("opacity", newOpacity); 
+                        d3.select("#redAxis1").style("opacity", newOpacity);
+                        redLine1.active = active;})
+                        .text("Price Line"); 
+d3.csv("/static/js/open-interest/okex-" + selectedVar + "-LTC-USD-SWAP-open-interest-" + file_name + ".csv", row, data => {  xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();g1.selectAll('circle').data(data).enter().append('circle')
+                        .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+                xAxisG.call(xAxis);
+                yAxisG.call(yAxis);
+                });
+                }
+                update1('2h');</script><br> okex ETH-USD-SWAP in USD (converted from contracts) <button id = "1h" onclick="update2('1h')"> 1 Hour </button><button id = "2h" onclick="update2('2h')"> 2 Hours </button><button id = "12h" onclick="update2('12h')"> 12 Hours </button><button id = "1d" onclick="update2('1d')"> 1 Day </button><button id = "3d" onclick="update2('3d')"> 3 Days </button> <label> <input id = "check2" type = "checkbox"> Coin Denominated </label> <br><svg id = "svg2" width = "890" height = "450"> </svg> <script> const svg2 = d3.select("#svg2");function update2(selectedVar){var isChecked = document.getElementById("check2").checked;
+if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+const width = svg2.attr('width'); 
+const height = svg2.attr('height'); 
+ const innerWidth = width - margin.left - margin.right; 
+ const innerHeight = height - margin.top - margin.bottom; 
+svg2.selectAll("*").remove(); 
+const g2= svg2.append('g') 
+.attr('transform', `translate(${margin.left},${margin.top})`); 
+const xAxisG = g2.append('g') 
+ .attr('transform', `translate(0, ${innerHeight})`); 
+const yAxisG = g2.append('g') 
+ xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+d3.csv("/static/js/open-interest-price/okex-" + selectedVar + "-ETH-USD-SWAP-open-interest-price.csv", function(error,data){  if (error) throw error;
+    
+      // format the data
+      data.forEach(function(d) {
+          d.date = parseTime(d.date);
+          d.price = +d.price;
+          d.oi = +d.oi;
+      });
+    
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y1.domain([d3.min(data, function(d) {return Math.min(d.price);}), d3.max(data, function(d) {return Math.max(d.price); })]);
+    
+      var tempWidth = innerWidth + 100 
+svg2.append("path")
+                        .data([data])
+                        .attr("class","line")
+                        .attr("id", "redLine2")
+                        .style("stroke", "red")
+                        .attr("d", valueline2)
+                        .attr("transform", "translate( 100" + ",20)");
+                    svg2.append("g")
+                        .attr("class","axisRed")
+                        .attr("transform", "translate( " + tempWidth + ", 20 )")
+                        .attr("id", "redAxis2")
+                        .call(d3.axisRight(y1)); });
+                    svg2.append("text")
+                        .attr("x", innerWidth + 40)             
+                        .attr("y", margin.top - 10)    
+                        .attr("class", "legend")
+                        .style("fill", "red")         
+                        .on("click", function(){
+                            var active = redLine2.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        d3.select("#redLine2").style("opacity", newOpacity); 
+                        d3.select("#redAxis2").style("opacity", newOpacity);
+                        redLine2.active = active;})
+                        .text("Price Line"); 
+d3.csv("/static/js/open-interest/okex-" + selectedVar + "-ETH-USD-SWAP-open-interest-" + file_name + ".csv", row, data => {  xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();g2.selectAll('circle').data(data).enter().append('circle')
+                        .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+                xAxisG.call(xAxis);
+                yAxisG.call(yAxis);
+                });
+                }
+                update2('2h');</script><br> okex ETC-USD-SWAP in USD (converted from contracts) <button id = "1h" onclick="update3('1h')"> 1 Hour </button><button id = "2h" onclick="update3('2h')"> 2 Hours </button><button id = "12h" onclick="update3('12h')"> 12 Hours </button><button id = "1d" onclick="update3('1d')"> 1 Day </button><button id = "3d" onclick="update3('3d')"> 3 Days </button> <label> <input id = "check3" type = "checkbox"> Coin Denominated </label> <br><svg id = "svg3" width = "890" height = "450"> </svg> <script> const svg3 = d3.select("#svg3");function update3(selectedVar){var isChecked = document.getElementById("check3").checked;
+if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+const width = svg3.attr('width'); 
+const height = svg3.attr('height'); 
+ const innerWidth = width - margin.left - margin.right; 
+ const innerHeight = height - margin.top - margin.bottom; 
+svg3.selectAll("*").remove(); 
+const g3= svg3.append('g') 
+.attr('transform', `translate(${margin.left},${margin.top})`); 
+const xAxisG = g3.append('g') 
+ .attr('transform', `translate(0, ${innerHeight})`); 
+const yAxisG = g3.append('g') 
+ xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+d3.csv("/static/js/open-interest-price/okex-" + selectedVar + "-ETC-USD-SWAP-open-interest-price.csv", function(error,data){  if (error) throw error;
+    
+      // format the data
+      data.forEach(function(d) {
+          d.date = parseTime(d.date);
+          d.price = +d.price;
+          d.oi = +d.oi;
+      });
+    
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y1.domain([d3.min(data, function(d) {return Math.min(d.price);}), d3.max(data, function(d) {return Math.max(d.price); })]);
+    
+      var tempWidth = innerWidth + 100 
+svg3.append("path")
+                        .data([data])
+                        .attr("class","line")
+                        .attr("id", "redLine3")
+                        .style("stroke", "red")
+                        .attr("d", valueline2)
+                        .attr("transform", "translate( 100" + ",20)");
+                    svg3.append("g")
+                        .attr("class","axisRed")
+                        .attr("transform", "translate( " + tempWidth + ", 20 )")
+                        .attr("id", "redAxis3")
+                        .call(d3.axisRight(y1)); });
+                    svg3.append("text")
+                        .attr("x", innerWidth + 40)             
+                        .attr("y", margin.top - 10)    
+                        .attr("class", "legend")
+                        .style("fill", "red")         
+                        .on("click", function(){
+                            var active = redLine3.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        d3.select("#redLine3").style("opacity", newOpacity); 
+                        d3.select("#redAxis3").style("opacity", newOpacity);
+                        redLine3.active = active;})
+                        .text("Price Line"); 
+d3.csv("/static/js/open-interest/okex-" + selectedVar + "-ETC-USD-SWAP-open-interest-" + file_name + ".csv", row, data => {  xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();g3.selectAll('circle').data(data).enter().append('circle')
+                        .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+                xAxisG.call(xAxis);
+                yAxisG.call(yAxis);
+                });
+                }
+                update3('2h');</script><br> okex XRP-USD-SWAP in USD (converted from contracts) <button id = "1h" onclick="update4('1h')"> 1 Hour </button><button id = "2h" onclick="update4('2h')"> 2 Hours </button><button id = "12h" onclick="update4('12h')"> 12 Hours </button><button id = "1d" onclick="update4('1d')"> 1 Day </button><button id = "3d" onclick="update4('3d')"> 3 Days </button> <label> <input id = "check4" type = "checkbox"> Coin Denominated </label> <br><svg id = "svg4" width = "890" height = "450"> </svg> <script> const svg4 = d3.select("#svg4");function update4(selectedVar){var isChecked = document.getElementById("check4").checked;
+if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+const width = svg4.attr('width'); 
+const height = svg4.attr('height'); 
+ const innerWidth = width - margin.left - margin.right; 
+ const innerHeight = height - margin.top - margin.bottom; 
+svg4.selectAll("*").remove(); 
+const g4= svg4.append('g') 
+.attr('transform', `translate(${margin.left},${margin.top})`); 
+const xAxisG = g4.append('g') 
+ .attr('transform', `translate(0, ${innerHeight})`); 
+const yAxisG = g4.append('g') 
+ xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+d3.csv("/static/js/open-interest-price/okex-" + selectedVar + "-XRP-USD-SWAP-open-interest-price.csv", function(error,data){  if (error) throw error;
+    
+      // format the data
+      data.forEach(function(d) {
+          d.date = parseTime(d.date);
+          d.price = +d.price;
+          d.oi = +d.oi;
+      });
+    
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y1.domain([d3.min(data, function(d) {return Math.min(d.price);}), d3.max(data, function(d) {return Math.max(d.price); })]);
+    
+      var tempWidth = innerWidth + 100 
+svg4.append("path")
+                        .data([data])
+                        .attr("class","line")
+                        .attr("id", "redLine4")
+                        .style("stroke", "red")
+                        .attr("d", valueline2)
+                        .attr("transform", "translate( 100" + ",20)");
+                    svg4.append("g")
+                        .attr("class","axisRed")
+                        .attr("transform", "translate( " + tempWidth + ", 20 )")
+                        .attr("id", "redAxis4")
+                        .call(d3.axisRight(y1)); });
+                    svg4.append("text")
+                        .attr("x", innerWidth + 40)             
+                        .attr("y", margin.top - 10)    
+                        .attr("class", "legend")
+                        .style("fill", "red")         
+                        .on("click", function(){
+                            var active = redLine4.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        d3.select("#redLine4").style("opacity", newOpacity); 
+                        d3.select("#redAxis4").style("opacity", newOpacity);
+                        redLine4.active = active;})
+                        .text("Price Line"); 
+d3.csv("/static/js/open-interest/okex-" + selectedVar + "-XRP-USD-SWAP-open-interest-" + file_name + ".csv", row, data => {  xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();g4.selectAll('circle').data(data).enter().append('circle')
+                        .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+                xAxisG.call(xAxis);
+                yAxisG.call(yAxis);
+                });
+                }
+                update4('2h');</script><br> okex EOS-USD-SWAP in USD (converted from contracts) <button id = "1h" onclick="update5('1h')"> 1 Hour </button><button id = "2h" onclick="update5('2h')"> 2 Hours </button><button id = "12h" onclick="update5('12h')"> 12 Hours </button><button id = "1d" onclick="update5('1d')"> 1 Day </button><button id = "3d" onclick="update5('3d')"> 3 Days </button> <label> <input id = "check5" type = "checkbox"> Coin Denominated </label> <br><svg id = "svg5" width = "890" height = "450"> </svg> <script> const svg5 = d3.select("#svg5");function update5(selectedVar){var isChecked = document.getElementById("check5").checked;
+if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+const width = svg5.attr('width'); 
+const height = svg5.attr('height'); 
+ const innerWidth = width - margin.left - margin.right; 
+ const innerHeight = height - margin.top - margin.bottom; 
+svg5.selectAll("*").remove(); 
+const g5= svg5.append('g') 
+.attr('transform', `translate(${margin.left},${margin.top})`); 
+const xAxisG = g5.append('g') 
+ .attr('transform', `translate(0, ${innerHeight})`); 
+const yAxisG = g5.append('g') 
+ xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+d3.csv("/static/js/open-interest-price/okex-" + selectedVar + "-EOS-USD-SWAP-open-interest-price.csv", function(error,data){  if (error) throw error;
+    
+      // format the data
+      data.forEach(function(d) {
+          d.date = parseTime(d.date);
+          d.price = +d.price;
+          d.oi = +d.oi;
+      });
+    
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y1.domain([d3.min(data, function(d) {return Math.min(d.price);}), d3.max(data, function(d) {return Math.max(d.price); })]);
+    
+      var tempWidth = innerWidth + 100 
+svg5.append("path")
+                        .data([data])
+                        .attr("class","line")
+                        .attr("id", "redLine5")
+                        .style("stroke", "red")
+                        .attr("d", valueline2)
+                        .attr("transform", "translate( 100" + ",20)");
+                    svg5.append("g")
+                        .attr("class","axisRed")
+                        .attr("transform", "translate( " + tempWidth + ", 20 )")
+                        .attr("id", "redAxis5")
+                        .call(d3.axisRight(y1)); });
+                    svg5.append("text")
+                        .attr("x", innerWidth + 40)             
+                        .attr("y", margin.top - 10)    
+                        .attr("class", "legend")
+                        .style("fill", "red")         
+                        .on("click", function(){
+                            var active = redLine5.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        d3.select("#redLine5").style("opacity", newOpacity); 
+                        d3.select("#redAxis5").style("opacity", newOpacity);
+                        redLine5.active = active;})
+                        .text("Price Line"); 
+d3.csv("/static/js/open-interest/okex-" + selectedVar + "-EOS-USD-SWAP-open-interest-" + file_name + ".csv", row, data => {  xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();g5.selectAll('circle').data(data).enter().append('circle')
+                        .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+                xAxisG.call(xAxis);
+                yAxisG.call(yAxis);
+                });
+                }
+                update5('2h');</script><br> okex BCH-USD-SWAP in USD (converted from contracts) <button id = "1h" onclick="update6('1h')"> 1 Hour </button><button id = "2h" onclick="update6('2h')"> 2 Hours </button><button id = "12h" onclick="update6('12h')"> 12 Hours </button><button id = "1d" onclick="update6('1d')"> 1 Day </button><button id = "3d" onclick="update6('3d')"> 3 Days </button> <label> <input id = "check6" type = "checkbox"> Coin Denominated </label> <br><svg id = "svg6" width = "890" height = "450"> </svg> <script> const svg6 = d3.select("#svg6");function update6(selectedVar){var isChecked = document.getElementById("check6").checked;
+if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+const width = svg6.attr('width'); 
+const height = svg6.attr('height'); 
+ const innerWidth = width - margin.left - margin.right; 
+ const innerHeight = height - margin.top - margin.bottom; 
+svg6.selectAll("*").remove(); 
+const g6= svg6.append('g') 
+.attr('transform', `translate(${margin.left},${margin.top})`); 
+const xAxisG = g6.append('g') 
+ .attr('transform', `translate(0, ${innerHeight})`); 
+const yAxisG = g6.append('g') 
+ xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+d3.csv("/static/js/open-interest-price/okex-" + selectedVar + "-BCH-USD-SWAP-open-interest-price.csv", function(error,data){  if (error) throw error;
+    
+      // format the data
+      data.forEach(function(d) {
+          d.date = parseTime(d.date);
+          d.price = +d.price;
+          d.oi = +d.oi;
+      });
+    
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y1.domain([d3.min(data, function(d) {return Math.min(d.price);}), d3.max(data, function(d) {return Math.max(d.price); })]);
+    
+      var tempWidth = innerWidth + 100 
+svg6.append("path")
+                        .data([data])
+                        .attr("class","line")
+                        .attr("id", "redLine6")
+                        .style("stroke", "red")
+                        .attr("d", valueline2)
+                        .attr("transform", "translate( 100" + ",20)");
+                    svg6.append("g")
+                        .attr("class","axisRed")
+                        .attr("transform", "translate( " + tempWidth + ", 20 )")
+                        .attr("id", "redAxis6")
+                        .call(d3.axisRight(y1)); });
+                    svg6.append("text")
+                        .attr("x", innerWidth + 40)             
+                        .attr("y", margin.top - 10)    
+                        .attr("class", "legend")
+                        .style("fill", "red")         
+                        .on("click", function(){
+                            var active = redLine6.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        d3.select("#redLine6").style("opacity", newOpacity); 
+                        d3.select("#redAxis6").style("opacity", newOpacity);
+                        redLine6.active = active;})
+                        .text("Price Line"); 
+d3.csv("/static/js/open-interest/okex-" + selectedVar + "-BCH-USD-SWAP-open-interest-" + file_name + ".csv", row, data => {  xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();g6.selectAll('circle').data(data).enter().append('circle')
+                        .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+                xAxisG.call(xAxis);
+                yAxisG.call(yAxis);
+                });
+                }
+                update6('2h');</script><br> okex BSV-USD-SWAP in USD (converted from contracts) <button id = "1h" onclick="update7('1h')"> 1 Hour </button><button id = "2h" onclick="update7('2h')"> 2 Hours </button><button id = "12h" onclick="update7('12h')"> 12 Hours </button><button id = "1d" onclick="update7('1d')"> 1 Day </button><button id = "3d" onclick="update7('3d')"> 3 Days </button> <label> <input id = "check7" type = "checkbox"> Coin Denominated </label> <br><svg id = "svg7" width = "890" height = "450"> </svg> <script> const svg7 = d3.select("#svg7");function update7(selectedVar){var isChecked = document.getElementById("check7").checked;
+if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+const width = svg7.attr('width'); 
+const height = svg7.attr('height'); 
+ const innerWidth = width - margin.left - margin.right; 
+ const innerHeight = height - margin.top - margin.bottom; 
+svg7.selectAll("*").remove(); 
+const g7= svg7.append('g') 
+.attr('transform', `translate(${margin.left},${margin.top})`); 
+const xAxisG = g7.append('g') 
+ .attr('transform', `translate(0, ${innerHeight})`); 
+const yAxisG = g7.append('g') 
+ xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+d3.csv("/static/js/open-interest-price/okex-" + selectedVar + "-BSV-USD-SWAP-open-interest-price.csv", function(error,data){  if (error) throw error;
+    
+      // format the data
+      data.forEach(function(d) {
+          d.date = parseTime(d.date);
+          d.price = +d.price;
+          d.oi = +d.oi;
+      });
+    
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y1.domain([d3.min(data, function(d) {return Math.min(d.price);}), d3.max(data, function(d) {return Math.max(d.price); })]);
+    
+      var tempWidth = innerWidth + 100 
+svg7.append("path")
+                        .data([data])
+                        .attr("class","line")
+                        .attr("id", "redLine7")
+                        .style("stroke", "red")
+                        .attr("d", valueline2)
+                        .attr("transform", "translate( 100" + ",20)");
+                    svg7.append("g")
+                        .attr("class","axisRed")
+                        .attr("transform", "translate( " + tempWidth + ", 20 )")
+                        .attr("id", "redAxis7")
+                        .call(d3.axisRight(y1)); });
+                    svg7.append("text")
+                        .attr("x", innerWidth + 40)             
+                        .attr("y", margin.top - 10)    
+                        .attr("class", "legend")
+                        .style("fill", "red")         
+                        .on("click", function(){
+                            var active = redLine7.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        d3.select("#redLine7").style("opacity", newOpacity); 
+                        d3.select("#redAxis7").style("opacity", newOpacity);
+                        redLine7.active = active;})
+                        .text("Price Line"); 
+d3.csv("/static/js/open-interest/okex-" + selectedVar + "-BSV-USD-SWAP-open-interest-" + file_name + ".csv", row, data => {  xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();g7.selectAll('circle').data(data).enter().append('circle')
+                        .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+                xAxisG.call(xAxis);
+                yAxisG.call(yAxis);
+                });
+                }
+                update7('2h');</script><br> okex TRX-USD-SWAP in USD (converted from contracts) <button id = "1h" onclick="update8('1h')"> 1 Hour </button><button id = "2h" onclick="update8('2h')"> 2 Hours </button><button id = "12h" onclick="update8('12h')"> 12 Hours </button><button id = "1d" onclick="update8('1d')"> 1 Day </button><button id = "3d" onclick="update8('3d')"> 3 Days </button> <label> <input id = "check8" type = "checkbox"> Coin Denominated </label> <br><svg id = "svg8" width = "890" height = "450"> </svg> <script> const svg8 = d3.select("#svg8");function update8(selectedVar){var isChecked = document.getElementById("check8").checked;
+if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+const width = svg8.attr('width'); 
+const height = svg8.attr('height'); 
+ const innerWidth = width - margin.left - margin.right; 
+ const innerHeight = height - margin.top - margin.bottom; 
+svg8.selectAll("*").remove(); 
+const g8= svg8.append('g') 
+.attr('transform', `translate(${margin.left},${margin.top})`); 
+const xAxisG = g8.append('g') 
+ .attr('transform', `translate(0, ${innerHeight})`); 
+const yAxisG = g8.append('g') 
+ xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+d3.csv("/static/js/open-interest-price/okex-" + selectedVar + "-TRX-USD-SWAP-open-interest-price.csv", function(error,data){  if (error) throw error;
+    
+      // format the data
+      data.forEach(function(d) {
+          d.date = parseTime(d.date);
+          d.price = +d.price;
+          d.oi = +d.oi;
+      });
+    
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y1.domain([d3.min(data, function(d) {return Math.min(d.price);}), d3.max(data, function(d) {return Math.max(d.price); })]);
+    
+      var tempWidth = innerWidth + 100 
+svg8.append("path")
+                        .data([data])
+                        .attr("class","line")
+                        .attr("id", "redLine8")
+                        .style("stroke", "red")
+                        .attr("d", valueline2)
+                        .attr("transform", "translate( 100" + ",20)");
+                    svg8.append("g")
+                        .attr("class","axisRed")
+                        .attr("transform", "translate( " + tempWidth + ", 20 )")
+                        .attr("id", "redAxis8")
+                        .call(d3.axisRight(y1)); });
+                    svg8.append("text")
+                        .attr("x", innerWidth + 40)             
+                        .attr("y", margin.top - 10)    
+                        .attr("class", "legend")
+                        .style("fill", "red")         
+                        .on("click", function(){
+                            var active = redLine8.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        d3.select("#redLine8").style("opacity", newOpacity); 
+                        d3.select("#redAxis8").style("opacity", newOpacity);
+                        redLine8.active = active;})
+                        .text("Price Line"); 
+d3.csv("/static/js/open-interest/okex-" + selectedVar + "-TRX-USD-SWAP-open-interest-" + file_name + ".csv", row, data => {  xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();g8.selectAll('circle').data(data).enter().append('circle')
+                        .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+                xAxisG.call(xAxis);
+                yAxisG.call(yAxis);
+                });
+                }
+                update8('2h');</script><br> okex ADA-USD-SWAP in USD (converted from contracts) <button id = "1h" onclick="update9('1h')"> 1 Hour </button><button id = "2h" onclick="update9('2h')"> 2 Hours </button><button id = "12h" onclick="update9('12h')"> 12 Hours </button><button id = "1d" onclick="update9('1d')"> 1 Day </button><button id = "3d" onclick="update9('3d')"> 3 Days </button> <label> <input id = "check9" type = "checkbox"> Coin Denominated </label> <br><svg id = "svg9" width = "890" height = "450"> </svg> <script> const svg9 = d3.select("#svg9");function update9(selectedVar){var isChecked = document.getElementById("check9").checked;
+if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+const width = svg9.attr('width'); 
+const height = svg9.attr('height'); 
+ const innerWidth = width - margin.left - margin.right; 
+ const innerHeight = height - margin.top - margin.bottom; 
+svg9.selectAll("*").remove(); 
+const g9= svg9.append('g') 
+.attr('transform', `translate(${margin.left},${margin.top})`); 
+const xAxisG = g9.append('g') 
+ .attr('transform', `translate(0, ${innerHeight})`); 
+const yAxisG = g9.append('g') 
+ xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+d3.csv("/static/js/open-interest-price/okex-" + selectedVar + "-ADA-USD-SWAP-open-interest-price.csv", function(error,data){  if (error) throw error;
+    
+      // format the data
+      data.forEach(function(d) {
+          d.date = parseTime(d.date);
+          d.price = +d.price;
+          d.oi = +d.oi;
+      });
+    
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y1.domain([d3.min(data, function(d) {return Math.min(d.price);}), d3.max(data, function(d) {return Math.max(d.price); })]);
+    
+      var tempWidth = innerWidth + 100 
+svg9.append("path")
+                        .data([data])
+                        .attr("class","line")
+                        .attr("id", "redLine9")
+                        .style("stroke", "red")
+                        .attr("d", valueline2)
+                        .attr("transform", "translate( 100" + ",20)");
+                    svg9.append("g")
+                        .attr("class","axisRed")
+                        .attr("transform", "translate( " + tempWidth + ", 20 )")
+                        .attr("id", "redAxis9")
+                        .call(d3.axisRight(y1)); });
+                    svg9.append("text")
+                        .attr("x", innerWidth + 40)             
+                        .attr("y", margin.top - 10)    
+                        .attr("class", "legend")
+                        .style("fill", "red")         
+                        .on("click", function(){
+                            var active = redLine9.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        d3.select("#redLine9").style("opacity", newOpacity); 
+                        d3.select("#redAxis9").style("opacity", newOpacity);
+                        redLine9.active = active;})
+                        .text("Price Line"); 
+d3.csv("/static/js/open-interest/okex-" + selectedVar + "-ADA-USD-SWAP-open-interest-" + file_name + ".csv", row, data => {  xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();g9.selectAll('circle').data(data).enter().append('circle')
+                        .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+                xAxisG.call(xAxis);
+                yAxisG.call(yAxis);
+                });
+                }
+                update9('2h');</script><br> okex DASH-USD-SWAP in USD (converted from contracts) <button id = "1h" onclick="update10('1h')"> 1 Hour </button><button id = "2h" onclick="update10('2h')"> 2 Hours </button><button id = "12h" onclick="update10('12h')"> 12 Hours </button><button id = "1d" onclick="update10('1d')"> 1 Day </button><button id = "3d" onclick="update10('3d')"> 3 Days </button> <label> <input id = "check10" type = "checkbox"> Coin Denominated </label> <br><svg id = "svg10" width = "890" height = "450"> </svg> <script> const svg10 = d3.select("#svg10");function update10(selectedVar){var isChecked = document.getElementById("check10").checked;
+if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+const width = svg10.attr('width'); 
+const height = svg10.attr('height'); 
+ const innerWidth = width - margin.left - margin.right; 
+ const innerHeight = height - margin.top - margin.bottom; 
+svg10.selectAll("*").remove(); 
+const g10= svg10.append('g') 
+.attr('transform', `translate(${margin.left},${margin.top})`); 
+const xAxisG = g10.append('g') 
+ .attr('transform', `translate(0, ${innerHeight})`); 
+const yAxisG = g10.append('g') 
+ xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+d3.csv("/static/js/open-interest-price/okex-" + selectedVar + "-DASH-USD-SWAP-open-interest-price.csv", function(error,data){  if (error) throw error;
+    
+      // format the data
+      data.forEach(function(d) {
+          d.date = parseTime(d.date);
+          d.price = +d.price;
+          d.oi = +d.oi;
+      });
+    
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y1.domain([d3.min(data, function(d) {return Math.min(d.price);}), d3.max(data, function(d) {return Math.max(d.price); })]);
+    
+      var tempWidth = innerWidth + 100 
+svg10.append("path")
+                        .data([data])
+                        .attr("class","line")
+                        .attr("id", "redLine10")
+                        .style("stroke", "red")
+                        .attr("d", valueline2)
+                        .attr("transform", "translate( 100" + ",20)");
+                    svg10.append("g")
+                        .attr("class","axisRed")
+                        .attr("transform", "translate( " + tempWidth + ", 20 )")
+                        .attr("id", "redAxis10")
+                        .call(d3.axisRight(y1)); });
+                    svg10.append("text")
+                        .attr("x", innerWidth + 40)             
+                        .attr("y", margin.top - 10)    
+                        .attr("class", "legend")
+                        .style("fill", "red")         
+                        .on("click", function(){
+                            var active = redLine10.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        d3.select("#redLine10").style("opacity", newOpacity); 
+                        d3.select("#redAxis10").style("opacity", newOpacity);
+                        redLine10.active = active;})
+                        .text("Price Line"); 
+d3.csv("/static/js/open-interest/okex-" + selectedVar + "-DASH-USD-SWAP-open-interest-" + file_name + ".csv", row, data => {  xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();g10.selectAll('circle').data(data).enter().append('circle')
+                        .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+                xAxisG.call(xAxis);
+                yAxisG.call(yAxis);
+                });
+                }
+                update10('2h');</script><br> okex LINK-USD-SWAP in USD (converted from contracts) <button id = "1h" onclick="update11('1h')"> 1 Hour </button><button id = "2h" onclick="update11('2h')"> 2 Hours </button><button id = "12h" onclick="update11('12h')"> 12 Hours </button><button id = "1d" onclick="update11('1d')"> 1 Day </button><button id = "3d" onclick="update11('3d')"> 3 Days </button> <label> <input id = "check11" type = "checkbox"> Coin Denominated </label> <br><svg id = "svg11" width = "890" height = "450"> </svg> <script> const svg11 = d3.select("#svg11");function update11(selectedVar){var isChecked = document.getElementById("check11").checked;
+if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+const width = svg11.attr('width'); 
+const height = svg11.attr('height'); 
+ const innerWidth = width - margin.left - margin.right; 
+ const innerHeight = height - margin.top - margin.bottom; 
+svg11.selectAll("*").remove(); 
+const g11= svg11.append('g') 
+.attr('transform', `translate(${margin.left},${margin.top})`); 
+const xAxisG = g11.append('g') 
+ .attr('transform', `translate(0, ${innerHeight})`); 
+const yAxisG = g11.append('g') 
+ xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+d3.csv("/static/js/open-interest-price/okex-" + selectedVar + "-LINK-USD-SWAP-open-interest-price.csv", function(error,data){  if (error) throw error;
+    
+      // format the data
+      data.forEach(function(d) {
+          d.date = parseTime(d.date);
+          d.price = +d.price;
+          d.oi = +d.oi;
+      });
+    
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y1.domain([d3.min(data, function(d) {return Math.min(d.price);}), d3.max(data, function(d) {return Math.max(d.price); })]);
+    
+      var tempWidth = innerWidth + 100 
+svg11.append("path")
+                        .data([data])
+                        .attr("class","line")
+                        .attr("id", "redLine11")
+                        .style("stroke", "red")
+                        .attr("d", valueline2)
+                        .attr("transform", "translate( 100" + ",20)");
+                    svg11.append("g")
+                        .attr("class","axisRed")
+                        .attr("transform", "translate( " + tempWidth + ", 20 )")
+                        .attr("id", "redAxis11")
+                        .call(d3.axisRight(y1)); });
+                    svg11.append("text")
+                        .attr("x", innerWidth + 40)             
+                        .attr("y", margin.top - 10)    
+                        .attr("class", "legend")
+                        .style("fill", "red")         
+                        .on("click", function(){
+                            var active = redLine11.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        d3.select("#redLine11").style("opacity", newOpacity); 
+                        d3.select("#redAxis11").style("opacity", newOpacity);
+                        redLine11.active = active;})
+                        .text("Price Line"); 
+d3.csv("/static/js/open-interest/okex-" + selectedVar + "-LINK-USD-SWAP-open-interest-" + file_name + ".csv", row, data => {  xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();g11.selectAll('circle').data(data).enter().append('circle')
+                        .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+                xAxisG.call(xAxis);
+                yAxisG.call(yAxis);
+                });
+                }
+                update11('2h');</script><br> okex NEO-USD-SWAP in USD (converted from contracts) <button id = "1h" onclick="update14('1h')"> 1 Hour </button><button id = "2h" onclick="update14('2h')"> 2 Hours </button><button id = "12h" onclick="update14('12h')"> 12 Hours </button><button id = "1d" onclick="update14('1d')"> 1 Day </button><button id = "3d" onclick="update14('3d')"> 3 Days </button> <label> <input id = "check14" type = "checkbox"> Coin Denominated </label> <br><svg id = "svg14" width = "890" height = "450"> </svg> <script> const svg14 = d3.select("#svg14");function update14(selectedVar){var isChecked = document.getElementById("check14").checked;
+if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+const width = svg14.attr('width'); 
+const height = svg14.attr('height'); 
+ const innerWidth = width - margin.left - margin.right; 
+ const innerHeight = height - margin.top - margin.bottom; 
+svg14.selectAll("*").remove(); 
+const g14= svg14.append('g') 
+.attr('transform', `translate(${margin.left},${margin.top})`); 
+const xAxisG = g14.append('g') 
+ .attr('transform', `translate(0, ${innerHeight})`); 
+const yAxisG = g14.append('g') 
+ xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+d3.csv("/static/js/open-interest-price/okex-" + selectedVar + "-NEO-USD-SWAP-open-interest-price.csv", function(error,data){  if (error) throw error;
+    
+      // format the data
+      data.forEach(function(d) {
+          d.date = parseTime(d.date);
+          d.price = +d.price;
+          d.oi = +d.oi;
+      });
+    
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y1.domain([d3.min(data, function(d) {return Math.min(d.price);}), d3.max(data, function(d) {return Math.max(d.price); })]);
+    
+      var tempWidth = innerWidth + 100 
+svg14.append("path")
+                        .data([data])
+                        .attr("class","line")
+                        .attr("id", "redLine14")
+                        .style("stroke", "red")
+                        .attr("d", valueline2)
+                        .attr("transform", "translate( 100" + ",20)");
+                    svg14.append("g")
+                        .attr("class","axisRed")
+                        .attr("transform", "translate( " + tempWidth + ", 20 )")
+                        .attr("id", "redAxis14")
+                        .call(d3.axisRight(y1)); });
+                    svg14.append("text")
+                        .attr("x", innerWidth + 40)             
+                        .attr("y", margin.top - 10)    
+                        .attr("class", "legend")
+                        .style("fill", "red")         
+                        .on("click", function(){
+                            var active = redLine14.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        d3.select("#redLine14").style("opacity", newOpacity); 
+                        d3.select("#redAxis14").style("opacity", newOpacity);
+                        redLine14.active = active;})
+                        .text("Price Line"); 
+d3.csv("/static/js/open-interest/okex-" + selectedVar + "-NEO-USD-SWAP-open-interest-" + file_name + ".csv", row, data => {  xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();g14.selectAll('circle').data(data).enter().append('circle')
+                        .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+                xAxisG.call(xAxis);
+                yAxisG.call(yAxis);
+                });
+                }
+                update14('2h');</script><br> okex XTZ-USD-SWAP in USD (converted from contracts) <button id = "1h" onclick="update15('1h')"> 1 Hour </button><button id = "2h" onclick="update15('2h')"> 2 Hours </button><button id = "12h" onclick="update15('12h')"> 12 Hours </button><button id = "1d" onclick="update15('1d')"> 1 Day </button><button id = "3d" onclick="update15('3d')"> 3 Days </button> <label> <input id = "check15" type = "checkbox"> Coin Denominated </label> <br><svg id = "svg15" width = "890" height = "450"> </svg> <script> const svg15 = d3.select("#svg15");function update15(selectedVar){var isChecked = document.getElementById("check15").checked;
+if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+const width = svg15.attr('width'); 
+const height = svg15.attr('height'); 
+ const innerWidth = width - margin.left - margin.right; 
+ const innerHeight = height - margin.top - margin.bottom; 
+svg15.selectAll("*").remove(); 
+const g15= svg15.append('g') 
+.attr('transform', `translate(${margin.left},${margin.top})`); 
+const xAxisG = g15.append('g') 
+ .attr('transform', `translate(0, ${innerHeight})`); 
+const yAxisG = g15.append('g') 
+ xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+d3.csv("/static/js/open-interest-price/okex-" + selectedVar + "-XTZ-USD-SWAP-open-interest-price.csv", function(error,data){  if (error) throw error;
+    
+      // format the data
+      data.forEach(function(d) {
+          d.date = parseTime(d.date);
+          d.price = +d.price;
+          d.oi = +d.oi;
+      });
+    
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y1.domain([d3.min(data, function(d) {return Math.min(d.price);}), d3.max(data, function(d) {return Math.max(d.price); })]);
+    
+      var tempWidth = innerWidth + 100 
+svg15.append("path")
+                        .data([data])
+                        .attr("class","line")
+                        .attr("id", "redLine15")
+                        .style("stroke", "red")
+                        .attr("d", valueline2)
+                        .attr("transform", "translate( 100" + ",20)");
+                    svg15.append("g")
+                        .attr("class","axisRed")
+                        .attr("transform", "translate( " + tempWidth + ", 20 )")
+                        .attr("id", "redAxis15")
+                        .call(d3.axisRight(y1)); });
+                    svg15.append("text")
+                        .attr("x", innerWidth + 40)             
+                        .attr("y", margin.top - 10)    
+                        .attr("class", "legend")
+                        .style("fill", "red")         
+                        .on("click", function(){
+                            var active = redLine15.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        d3.select("#redLine15").style("opacity", newOpacity); 
+                        d3.select("#redAxis15").style("opacity", newOpacity);
+                        redLine15.active = active;})
+                        .text("Price Line"); 
+d3.csv("/static/js/open-interest/okex-" + selectedVar + "-XTZ-USD-SWAP-open-interest-" + file_name + ".csv", row, data => {  xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();g15.selectAll('circle').data(data).enter().append('circle')
+                        .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+                xAxisG.call(xAxis);
+                yAxisG.call(yAxis);
+                });
+                }
+                update15('2h');</script><br> okex ZEC-USD-SWAP in USD (converted from contracts) <button id = "1h" onclick="update16('1h')"> 1 Hour </button><button id = "2h" onclick="update16('2h')"> 2 Hours </button><button id = "12h" onclick="update16('12h')"> 12 Hours </button><button id = "1d" onclick="update16('1d')"> 1 Day </button><button id = "3d" onclick="update16('3d')"> 3 Days </button> <label> <input id = "check16" type = "checkbox"> Coin Denominated </label> <br><svg id = "svg16" width = "890" height = "450"> </svg> <script> const svg16 = d3.select("#svg16");function update16(selectedVar){var isChecked = document.getElementById("check16").checked;
+if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+const width = svg16.attr('width'); 
+const height = svg16.attr('height'); 
+ const innerWidth = width - margin.left - margin.right; 
+ const innerHeight = height - margin.top - margin.bottom; 
+svg16.selectAll("*").remove(); 
+const g16= svg16.append('g') 
+.attr('transform', `translate(${margin.left},${margin.top})`); 
+const xAxisG = g16.append('g') 
+ .attr('transform', `translate(0, ${innerHeight})`); 
+const yAxisG = g16.append('g') 
+ xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+d3.csv("/static/js/open-interest-price/okex-" + selectedVar + "-ZEC-USD-SWAP-open-interest-price.csv", function(error,data){  if (error) throw error;
+    
+      // format the data
+      data.forEach(function(d) {
+          d.date = parseTime(d.date);
+          d.price = +d.price;
+          d.oi = +d.oi;
+      });
+    
+      // Scale the range of the data
+      x.domain(d3.extent(data, function(d) { return d.date; }));
+      y1.domain([d3.min(data, function(d) {return Math.min(d.price);}), d3.max(data, function(d) {return Math.max(d.price); })]);
+    
+      var tempWidth = innerWidth + 100 
+svg16.append("path")
+                        .data([data])
+                        .attr("class","line")
+                        .attr("id", "redLine16")
+                        .style("stroke", "red")
+                        .attr("d", valueline2)
+                        .attr("transform", "translate( 100" + ",20)");
+                    svg16.append("g")
+                        .attr("class","axisRed")
+                        .attr("transform", "translate( " + tempWidth + ", 20 )")
+                        .attr("id", "redAxis16")
+                        .call(d3.axisRight(y1)); });
+                    svg16.append("text")
+                        .attr("x", innerWidth + 40)             
+                        .attr("y", margin.top - 10)    
+                        .attr("class", "legend")
+                        .style("fill", "red")         
+                        .on("click", function(){
+                            var active = redLine16.active ? false : true,
+                            newOpacity = active ? 0 : 1;
+                        d3.select("#redLine16").style("opacity", newOpacity); 
+                        d3.select("#redAxis16").style("opacity", newOpacity);
+                        redLine16.active = active;})
+                        .text("Price Line"); 
+d3.csv("/static/js/open-interest/okex-" + selectedVar + "-ZEC-USD-SWAP-open-interest-" + file_name + ".csv", row, data => {  xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();g16.selectAll('circle').data(data).enter().append('circle')
+                        .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+                xAxisG.call(xAxis);
+                yAxisG.call(yAxis);
+                });
+                }
+                update16('2h');</script></body> </html>

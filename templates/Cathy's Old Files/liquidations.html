@@ -1,0 +1,192 @@
+{% extends "base.html"%}
+{% block content %}
+
+<div id="all-liquidations">
+  <center>
+  <h4>Liquidations</h4>
+    <div id='liquidations'>
+      <div id='liquidations-row' class="row">
+      </div>
+    </div>
+  </center>
+</div><br><br>
+
+{% endblock content %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+  liquidations = {{liquidations | safe}};
+
+  function sort_by_hour(dict,times_dict={}) {
+    for (var time in dict){
+      truncated_time = Math.trunc(return_hour(time));
+      if (times_dict[truncated_time]){
+        times_dict[truncated_time] += dict[time];
+      }
+      else{
+        times_dict[truncated_time] = dict[time];
+      }
+    }
+    for (var i = 0; i < 48; i++){
+      if (!times_dict[i]){
+        times_dict[i]=0;
+      }
+    }
+    return times_dict;
+  }
+
+  function init_liquidations_divs() {
+    var d = document.getElementById('liquidations-row');
+    for (var coin in liquidations) {
+      var iDiv = document.createElement("div");
+      iDiv.className = 'col-md-6';
+      d.appendChild(iDiv);
+
+      var innerDiv = document.createElement('div');
+      innerDiv.className = 'chart';
+      innerDiv.id = coin.toLowerCase() + '-liquidations'
+      iDiv.appendChild(innerDiv);
+    }
+  }
+
+  function init_liquidations(){
+    for (var coin in liquidations){
+
+      var data = [];
+      var desired_maximum_marker_size = 40;
+
+      //buy
+      var times = return_keys(liquidations[coin]['Buy']);
+      times = times.map(function(i) { return return_hour(parseFloat(i)) });
+      var sizes = return_values(liquidations[coin]['Buy']);
+      var max = Math.max.apply(Math, sizes);
+      var trace = {
+        x: times,
+        y: sizes,
+        textposition: 'auto',
+        type: 'scatter',
+        name: 'Buy',
+        mode: 'markers',
+        hovertemplate:'Buy ' +
+              '%{y}',
+        marker: {
+            size: 8,
+            // sizeref: 2.0 * max / (desired_maximum_marker_size**2),
+            // sizemode: 'area'
+          }
+      };
+      data.push(trace);
+
+      //sell
+
+      var times = return_keys(liquidations[coin]['Sell']);
+      times = times.map(function(i) { return return_hour(i) });
+      var sizes = return_values(liquidations[coin]['Sell'])
+      // var max = Math.max.apply(Math, sizes);
+      var trace = {
+        x: times,
+        y: sizes,
+        textposition: 'auto',
+        type: 'scatter',
+        name: 'Sell',
+        mode: 'markers',
+        hovertemplate:'Sell ' +
+              '%{y}',
+        marker: {
+            size: 8,
+            // sizeref: 2.0 * max / (desired_maximum_marker_size**2),
+            // sizemode: 'area'
+          }
+      };
+      data.push(trace);
+
+      //aggregate
+      var aggregate_liquidations_sell = sort_by_hour(liquidations[coin]['Sell']);
+      var aggregate_liquidations = sort_by_hour(liquidations[coin]['Buy'],aggregate_liquidations_sell);
+
+      var times = return_keys(aggregate_liquidations);
+      var sums = return_values(aggregate_liquidations);
+
+      var trace = {
+        x: times,
+        y: sums,
+        yaxis: 'y2',
+        xaxis: 'x1',
+        textposition: 'auto',
+        type: 'bar',
+        name: 'Total Hourly Liquidations',
+        hovertemplate:'%{x}H Ago: ' +
+              '$%{y}',
+        marker: {
+            color: 'rgb(169,169,169)'
+          },
+        opacity: 0.5,
+        showgrid: false,
+      };
+      data.push(trace);
+
+      var layout = {
+        title: coin + ' Liquidations',
+        yaxis: {
+          rangemode: 'tozero',
+          title: 'in USD ($)',
+          titlefont: {
+              size:12,
+            },
+          mirror: true,
+          showline: true,
+          ticks: "inside"
+        },
+        xaxis: {
+          title: 'Hrs. Ago',
+          titlefont: {
+              size:12,
+            },
+          autorange: 'reversed',
+          ticks: "inside"
+        },
+        yaxis2: {
+          rangemode: 'tozero',
+          title: 'Total Hourly Liquidations',
+          titlefont: {
+              size:12,
+            },
+          overlaying: 'y',
+          side: 'right',
+          anchor: 'y',
+          showgrid: false,
+          zeroline: false,
+          ticks: "inside"
+        },
+        width: 8,
+      };
+      Plotly.newPlot(coin.toLowerCase() + '-liquidations', data, layout);
+    }
+  }
+
+  socket.on('draw_liquidations_graphs', function(msg) {
+    liquidations = JSON.parse(JSON.stringify(msg['liquidations']));
+    init_liquidations();
+  });
+
+  // function checkFirstVisit() {
+  //   if(document.cookie.indexOf('mycookie')==-1) {
+  //     // cookie doesn't exist, create it now
+  //     document.cookie = 'mycookie=1';
+  //   }
+  // }
+  // checkFirstVisit();
+  function refresh(){
+    socket.emit('refresh_liquidations');
+    setTimeout(refresh, 10000);
+  }
+
+  init_liquidations_divs();
+  init_liquidations();
+  refresh();
+
+</script>
+
+
+{% endblock javascript %}

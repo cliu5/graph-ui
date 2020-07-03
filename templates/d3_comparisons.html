@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style> /* set the CSS */
+
+.bar { fill: steelblue; }
+
+</style>
+<body>
+	
+<!-- load the d3.js library -->    	
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+// set the dimensions and margins of the graph
+var margin = {top: 60, right: 20, bottom: 30, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+// set the ranges
+var x = d3.scaleBand()
+          .range([0, width-200])
+          .padding(0.5);
+var y = d3.scaleLinear()
+          .range([height, 0]);
+          
+// append the svg object to the body of the page
+// append a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+  svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "20px") 
+        .text("BTC Exchanges");
+
+// get the data
+d3.csv("/static/js/BTC-comparisons.csv", function(error, data) {
+  if (error) throw error;
+
+  // format the data
+  data.forEach(function(d) {
+    d.price = +d.price;
+  });
+
+  // Scale the range of the data in the domains
+  x.domain(data.map(function(d) { return d.exchange; }));
+  y.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+  // append the rectangles for the bar chart
+  svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.exchange); })
+      .attr("width", x.bandwidth())
+      .attr("y", function(d) { return y(d.price); })
+      .attr("height", function(d) { return height - y(d.price); });
+
+  // add the x Axis
+  svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  // add the y Axis
+  svg.append("g")
+      .call(d3.axisLeft(y));
+
+});
+
+
+
+var svg2 = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+          svg2.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "20px") 
+        .text("ETH Exchanges"); 
+
+d3.csv("/static/js/ETH-comparisons.csv", function(error, data) {
+  if (error) throw error;
+
+  // format the data
+  data.forEach(function(d) {
+    d.price = +d.price;
+  });
+
+  // Scale the range of the data in the domains
+  x.domain(data.map(function(d) { return d.exchange; }));
+  y.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+
+  // append the rectangles for the bar chart
+  svg2.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.exchange); })
+      .attr("width", x.bandwidth())
+      .attr("y", function(d) { return y(d.price); })
+      .attr("height", function(d) { return height - y(d.price); });
+
+  // add the x Axis
+  svg2.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  // add the y Axis
+  svg2.append("g")
+      .call(d3.axisLeft(y));
+
+});
+
+
+var svg3 = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+          svg3.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "20px") 
+        .text("BCH Exchanges");
+
+
+d3.csv("/static/js/BCH-comparisons.csv", function(error, data) {
+  if (error) throw error;
+
+  // format the data
+  data.forEach(function(d) {
+    d.price = +d.price;
+  });
+
+  // Scale the range of the data in the domains
+  x.domain(data.map(function(d) { return d.exchange; }));
+  y.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+  // append the rectangles for the bar chart
+  svg3.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.exchange); })
+      .attr("width", x.bandwidth())
+      .attr("y", function(d) { return y(d.price); })
+      .attr("height", function(d) { return height - y(d.price); });
+
+  // add the x Axis
+  svg3.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  // add the y Axis
+  svg3.append("g")
+      .call(d3.axisLeft(y));
+
+});
+
+
+
+var svg4 = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+          svg4.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "20px") 
+        .text("LTC Exchanges");
+
+d3.csv("/static/js/LTC-comparisons.csv", function(error, data) {
+  if (error) throw error;
+
+  // format the data
+  data.forEach(function(d) {
+    d.price = +d.price;
+  });
+
+  // Scale the range of the data in the domains
+  x.domain(data.map(function(d) { return d.exchange; }));
+  y.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+  // append the rectangles for the bar chart
+  svg4.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.exchange); })
+      .attr("width", x.bandwidth())
+      .attr("y", function(d) { return y(d.price); })
+      .attr("height", function(d) { return height - y(d.price); });
+
+  // add the x Axis
+  svg4.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  // add the y Axis
+  svg4.append("g")
+      .call(d3.axisLeft(y));
+
+});
+
+
+
+var svg5 = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+          svg5.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "20px") 
+        .text("XRP Exchanges");
+
+d3.csv("/static/js/XRP-comparisons.csv", function(error, data) {
+  if (error) throw error;
+
+  // format the data
+  data.forEach(function(d) {
+    d.price = +d.price;
+  });
+
+  // Scale the range of the data in the domains
+  x.domain(data.map(function(d) { return d.exchange; }));
+  y.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+
+  // append the rectangles for the bar chart
+  svg5.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.exchange); })
+      .attr("width", x.bandwidth())
+      .attr("y", function(d) { return y(d.price); })
+      .attr("height", function(d) { return height - y(d.price); });
+
+  // add the x Axis
+  svg5.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  // add the y Axis
+  svg5.append("g")
+      .call(d3.axisLeft(y));
+
+});
+
+
+
+var svg6 = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+          svg6.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "20px") 
+        .text("BSV Exchanges");
+
+d3.csv("/static/js/BSV-comparisons.csv", function(error, data) {
+  if (error) throw error;
+
+  // format the data
+  data.forEach(function(d) {
+    d.price = +d.price;
+  });
+
+  // Scale the range of the data in the domains
+  x.domain(data.map(function(d) { return d.exchange; }));
+  y.domain([100, d3.max(data, function(d) { return d.price; })]);
+
+  // append the rectangles for the bar chart
+  svg6.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.exchange); })
+      .attr("width", x.bandwidth())
+      .attr("y", function(d) { return y(d.price); })
+      .attr("height", function(d) { return height - y(d.price); });
+
+  // add the x Axis
+  svg6.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  // add the y Axis
+  svg6.append("g")
+      .call(d3.axisLeft(y));
+
+});
+
+
+
+var svg7 = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+          svg7.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "20px") 
+        .text("TRX Exchanges");
+
+d3.csv("/static/js/TRX-comparisons.csv", function(error, data) {
+  if (error) throw error;
+
+  // format the data
+  data.forEach(function(d) {
+    d.price = +d.price;
+  });
+
+  // Scale the range of the data in the domains
+  x.domain(data.map(function(d) { return d.exchange; }));
+  y.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+  // append the rectangles for the bar chart
+  svg7.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.exchange); })
+      .attr("width", x.bandwidth())
+      .attr("y", function(d) { return y(d.price); })
+      .attr("height", function(d) { return height - y(d.price); });
+
+  // add the x Axis
+  svg7.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  // add the y Axis
+  svg7.append("g")
+      .call(d3.axisLeft(y));
+
+});
+
+
+
+var svg8 = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+          svg8.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "20px") 
+        .text("EOS Exchanges");
+
+
+d3.csv("/static/js/EOS-comparisons.csv", function(error, data) {
+  if (error) throw error;
+
+  // format the data
+  data.forEach(function(d) {
+    d.price = +d.price;
+  });
+
+  // Scale the range of the data in the domains
+  x.domain(data.map(function(d) { return d.exchange; }));
+  y.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+  // append the rectangles for the bar chart
+  svg8.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.exchange); })
+      .attr("width", x.bandwidth())
+      .attr("y", function(d) { return y(d.price); })
+      .attr("height", function(d) { return height - y(d.price); });
+
+  // add the x Axis
+  svg8.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  // add the y Axis
+  svg8.append("g")
+      .call(d3.axisLeft(y));
+
+});
+
+
+
+var svg9 = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+          svg9.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "20px") 
+        .text("ADA Exchanges");
+
+d3.csv("/static/js/ADA-comparisons.csv", function(error, data) {
+  if (error) throw error;
+
+  // format the data
+  data.forEach(function(d) {
+    d.price = +d.price;
+  });
+
+  // Scale the range of the data in the domains
+  x.domain(data.map(function(d) { return d.exchange; }));
+  y.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+  // append the rectangles for the bar chart
+  svg9.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.exchange); })
+      .attr("width", x.bandwidth())
+      .attr("y", function(d) { return y(d.price); })
+      .attr("height", function(d) { return height - y(d.price); });
+
+  // add the x Axis
+  svg9.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  // add the y Axis
+  svg9.append("g")
+      .call(d3.axisLeft(y));
+
+});
+
+
+
+var svg10 = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+          svg10.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "20px") 
+        .text("ETC Exchanges");
+
+d3.csv("/static/js/ETC-comparisons.csv", function(error, data) {
+  if (error) throw error;
+
+  // format the data
+  data.forEach(function(d) {
+    d.price = +d.price;
+  });
+
+  // Scale the range of the data in the domains
+  x.domain(data.map(function(d) { return d.exchange; }));
+  y.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+  // append the rectangles for the bar chart
+  svg10.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.exchange); })
+      .attr("width", x.bandwidth())
+      .attr("y", function(d) { return y(d.price); })
+      .attr("height", function(d) { return height - y(d.price); });
+
+  // add the x Axis
+  svg10.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  // add the y Axis
+  svg10.append("g")
+      .call(d3.axisLeft(y));
+
+});
+
+
+
+var svg11 = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+          svg11.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "20px") 
+        .text("LINK Exchanges");
+
+d3.csv("/static/js/LINK-comparisons.csv", function(error, data) {
+  if (error) throw error;
+
+  // format the data
+  data.forEach(function(d) {
+    d.price = +d.price;
+  });
+
+  // Scale the range of the data in the domains
+  x.domain(data.map(function(d) { return d.exchange; }));
+  y.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+  // append the rectangles for the bar chart
+  svg11.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.exchange); })
+      .attr("width", x.bandwidth())
+      .attr("y", function(d) { return y(d.price); })
+      .attr("height", function(d) { return height - y(d.price); });
+
+  // add the x Axis
+  svg11.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  // add the y Axis
+  svg11.append("g")
+      .call(d3.axisLeft(y));
+
+});
+
+var svg12 = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+          svg12.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "20px") 
+        .text("XLM Exchanges");
+
+d3.csv("/static/js/XLM-comparisons.csv", function(error, data) {
+  if (error) throw error;
+
+  // format the data
+  data.forEach(function(d) {
+    d.price = +d.price;
+  });
+
+  // Scale the range of the data in the domains
+  x.domain(data.map(function(d) { return d.exchange; }));
+  y.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+  // append the rectangles for the bar chart
+  svg12.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.exchange); })
+      .attr("width", x.bandwidth())
+      .attr("y", function(d) { return y(d.price); })
+      .attr("height", function(d) { return height - y(d.price); });
+
+  // add the x Axis
+  svg12.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  // add the y Axis
+  svg12.append("g")
+      .call(d3.axisLeft(y));
+
+});
+
+
+</script>
+</body>

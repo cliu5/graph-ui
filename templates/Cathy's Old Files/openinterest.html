@@ -1,0 +1,451 @@
+{% extends "base.html"%}
+{% block content %}
+
+<div id="all-open-interests" >
+  <h4>Open Interest</h4>
+  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <label class="btn btn-light">
+      <input type="radio" name="options" id="exch_individual" autocomplete="off" checked> By Components
+    </label>
+    <label class="btn btn-light">
+      <input type="radio" name="options" id="exch_aggregate" autocomplete="off"> Aggregate
+    </label>
+    <label class="btn btn-light">
+      <input type="radio" name="options" id="exch_comparison" autocomplete="off"> Comparing Exchanges
+    </label>
+  </div>
+  <div id="open-interest">
+    <div id="open-interest-row" class="row">
+    </div>
+  </div>
+  <div id="aggregate" class="hidden">
+    <div id="aggregate-row" class="row">
+    </div>
+  </div>
+  <div id="comparison" class="hidden">
+    <div id="comparison-row" class="row">
+    </div>
+  </div>
+</div><br><br>
+
+{% endblock content %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+
+  open_interest=JSON.parse(JSON.stringify({{open_interest | safe}}));
+  prices=JSON.parse(JSON.stringify({{prices | safe}}));
+  comparisons = {{comparisons | safe}};
+  dates = {{dates | safe}};
+  standard_prices = return_standard_prices(prices);
+
+  function makegraph(exchange,graph,dollar = true) {
+    var data=[];
+    var layout;
+    var addon;
+    var divisor;
+    var yaxis_name;
+
+    function unpack(dict,exchange,trace,x=true) {
+      var times = [];
+      var values = [];
+      for (var time in dict){
+        times.push(time);
+        if (dict[time]){
+          values.push(dict[time]['open_interest']);
+        }
+        else{
+          values.push(0);
+        }
+      }
+      if (x){
+        return times;
+      }
+      else{
+        return values;
+      }
+    }
+
+    for ( var trace in open_interest[exchange][graph]) {
+
+      var x = unpack(open_interest[exchange][graph][trace],exchange,trace);
+      x = x.map(function(i) { return return_hour(i)*60 });
+
+      var y = unpack(open_interest[exchange][graph][trace],exchange,trace,false);
+      if (dollar){
+        var yaxis_name='in USD ($)';
+      }
+      else{
+        fill_in_gaps(prices[graph][exchange][trace],open_interest[exchange][graph][trace]);
+        var divisor = return_values_price(prices[graph][exchange][trace]);
+        var yaxis_name='in '+graph;
+        y = y.map((val, i) => {return val/divisor[i]});
+      }
+
+      var tr = {
+        x: x,
+        y: y,
+        text: percent(y),
+        textposition: 'auto',
+        type: 'line',
+        hovertemplate: '<b>%{x}m ago</b>' +
+                      '<br>$%{y}<br>',
+        name:trace,
+      };
+      data.push(tr);
+
+      // var tr2 = {
+      //     x: x,
+      //     y: y.map((val, i) => {return val/divisor[i]}) ,
+      //     yaxis: 'y2',
+      //     xaxis: 'x1',
+      //     text: percent(y),
+      //     textposition: 'auto',
+      //     type: 'line',
+      //     hovertemplate: '<b>%{x}</b>' +
+      //           '<br>$%{y}<br>',
+      //     name: trace + ' in ' + graph,
+      //     };
+      // data.push(tr2);
+
+    layout = {
+        title: exchange + ' ' + graph + ' oi ' + yaxis_name,
+        uirevision:'true',
+        yaxis: {
+          title: yaxis_name,
+          titlefont: {
+              size:12,
+            },
+        },
+        xaxis: {
+          title: 'minutes ago',
+          titlefont: {
+              size:12,
+            },
+          ticks: "inside",
+          autorange: 'reversed',
+        },
+      };
+    Plotly.react(exchange+'-'+graph, data, layout);
+    }
+  }
+
+  var choices=['dollars','coin'];
+
+  function init_divs(){
+    var d = document.getElementById('open-interest-row');
+    d.innerHTML='';
+
+    for (var exchange in open_interest){
+      for (var coin in open_interest[exchange]){
+        var iDiv = document.createElement("div");
+        iDiv.className = 'col-md-6 text-center';
+        d.appendChild(iDiv);
+
+        var innerDiv = document.createElement('div');
+        innerDiv.className = 'chart';
+        innerDiv.id = exchange+'-'+coin;
+        iDiv.appendChild(innerDiv);
+
+        var buttons = document.createElement('div');
+        buttons.className = 'btn-group btn-group-toggle';
+        iDiv.appendChild(buttons);
+        for (var b in choices){
+          var label = document.createElement('label');
+          label.className = "btn btn-warning btn-sm";
+          label.innerHTML = choices[b];
+          buttons.appendChild(label);
+
+          var input = document.createElement('input');
+          input.setAttribute("type","radio");
+          input.setAttribute("name","options");
+          input.className=choices[b];
+          input.id =choices[b]+'-'+exchange+'-'+coin;
+          input.setAttribute("autocomplete","off");
+          label.appendChild(input);
+          document.getElementById(input.id).checked = ['line','dollars'].includes(choices[b]);
+        }
+      }
+    }
+  }
+
+  function init_open_interests() {
+    for (var exchange in open_interest){
+      for (var graph in open_interest[exchange]) {
+        //remember whether on line/bar, coin/price
+        var dollars= document.getElementById('dollars-'+exchange+'-'+graph).checked;
+        makegraph(exchange,graph,dollars);
+      }
+    }
+  }
+
+  function init_comparison_divs(){
+    d = document.getElementById('comparison-row');
+    for (var coin in prices) {
+      var iDiv = document.createElement("div");
+      iDiv.className = 'col-md-6';
+      d.appendChild(iDiv);
+
+      var innerDiv = document.createElement('div');
+      innerDiv.className = 'chart';
+      innerDiv.id = coin.toLowerCase() + '-exchanges';
+      iDiv.appendChild(innerDiv);
+    }
+  }
+
+  function makecomparisions(){
+    for (var key in prices){
+      var exchanges = return_keys(comparisons[key]);
+      var p = return_values_comparisons_last(comparisons[key]);
+      console.log(p);
+      var percentages = percent(p);
+      var data = [{
+          x: exchanges,
+          y: p,
+          text: p,
+          textposition: 'auto',
+          type: 'bar',
+          hovertemplate: '<b>%{x}</b>' +
+                '<br>$%{y}<br>',
+          marker:{
+              color: repeat(['rgba(64, 73, 79, 1)'], p.length)
+            },
+        }];
+      var layout = {
+        title: key+' Exchanges' +' (USD)',
+        yaxis: {title: 'in USD ($)'},
+      };
+      Plotly.newPlot(key.toLowerCase() +'-exchanges', data, layout);
+    }
+
+  }
+
+  function init_comparison(){
+    makecomparisions();
+  }
+
+  function init_aggregate_divs() {
+    var d = document.getElementById('aggregate-row');
+    d.innerHTML = '';
+    for (var coin in comparisons) {
+      for (var exchange in comparisons[coin]) {
+        var iDiv = document.createElement("div");
+        iDiv.className = 'col-md-6 text-center';
+        d.appendChild(iDiv);
+
+        var innerDiv = document.createElement('div');
+        innerDiv.className = 'chart';
+        innerDiv.id = exchange + '-' + coin.toLowerCase() + '-aggregate';
+        iDiv.appendChild(innerDiv);
+
+        var buttons = document.createElement('div');
+        buttons.className = 'btn-group btn-group-toggle';
+        iDiv.appendChild(buttons);
+        for (var b in choices){
+          var label = document.createElement('label');
+          label.className = "btn btn-danger btn-sm";
+          label.innerHTML = choices[b];
+          buttons.appendChild(label);
+
+          var input = document.createElement('input');
+          input.setAttribute("type","radio");
+          input.setAttribute("name","options");
+          input.className=choices[b];
+          input.id ='a'+choices[b]+'-'+exchange+'-'+coin;
+          input.setAttribute("autocomplete","off");
+          label.appendChild(input);
+          document.getElementById(input.id).checked = ['line','dollars'].includes(choices[b]);
+        }
+      }
+    }
+  }
+
+  function make_aggregate(exchange,coin,dollar = true){
+
+    var data = [];
+    var p = comparisons[coin][exchange];
+    var x = return_keys(p);
+    x = x.map(function(i) { return return_hour(i)*60 });
+    var y = return_values(p);
+
+    var percentages = percent(y);
+    if (dollar){
+      var yaxis_name='in USD ($)';
+    }
+    else{
+      var yaxis_name='in ' + coin;
+      fill_in_gaps(standard_prices[coin][exchange],comparisons[coin][exchange]);
+      var divisor = return_values_price(standard_prices[coin][exchange]);
+      y = y.map((val, i) => {return val/divisor[i]});
+    }
+
+    var tr1 = {
+        x: x,
+        y: y,
+        text: percentages,
+        textposition: 'auto',
+        type: 'line',
+        hovertemplate: '<b>%{x}m ago</b>' +
+              '<br>$%{y}<br>',
+        marker:{
+            color: repeat(['rgba(64, 73, 79, 1)'], p.length)
+          },
+        // name: 'OI USD',
+        };
+    data.push(tr1);
+
+    // var tr2 = {
+    //     x: x,
+    //     y: y.map((val, i) => {return val/divisor[i]}) ,
+    //     yaxis: 'y2',
+    //     xaxis: 'x1',
+    //     text: percentages,
+    //     textposition: 'auto',
+    //     type: 'line',
+    //     hovertemplate: '<b>%{x}</b>' +
+    //           '<br>$%{y}<br>',
+    //     marker:{
+    //         color: repeat(['rgba(64, 73, 79, 1)'], p.length)
+    //       },
+    //     name: 'OI ' + coin,
+    //     };
+    // data.push(tr2);
+
+    var layout = {
+      title: exchange + ' ' + coin+' oi in '+yaxis_name,
+      uirevision:'true',
+      xaxis: {
+        rangemode: 'tozero',
+        ticks: "inside",
+        title: "minutes ago",
+        autorange: 'reversed',
+      },
+      yaxis: {
+        rangemode: 'tozero',
+        title: yaxis_name,
+        titlefont: {
+            size:12,
+          },
+        ticks: "inside",
+      },
+      // yaxis2: {
+      //   rangemode: 'tozero',
+      //   titlefont: {
+      //       size:12,
+      //     },
+      //   overlaying: 'y',
+      //   side: 'right',
+      //   anchor: 'y',
+      //   showgrid: false,
+      //   zeroline: false,
+      //   ticks: "inside",
+      //   title: 'in '+coin,
+      // },
+    };
+    Plotly.newPlot(exchange + '-' + coin.toLowerCase() +'-aggregate', data, layout);
+  }
+
+  function init_aggregate(){
+    for (var coin in comparisons){
+      for (var exchange in comparisons[coin]){
+        make_aggregate(exchange,coin);
+    }
+  }
+}
+
+  $(document).ready(function(){
+    $("#exch_comparison").click(function(){
+      $("#open-interest").addClass('hidden');
+      $('#aggregate').addClass('hidden');
+      $('#comparison').removeClass('hidden');
+      init_comparison();
+    });
+    });
+
+  $(document).ready(function(){
+    $("#exch_individual").click(function(){
+      $("#open-interest").removeClass('hidden');
+      $('#aggregate').addClass('hidden');
+      $('#comparison').addClass('hidden');
+      init_open_interests();
+    });
+    });
+
+  $(document).ready(function(){
+    $("#exch_aggregate").click(function(){
+      $("#open-interest").addClass('hidden');
+      $('#comparison').addClass('hidden');
+      $('#aggregate').removeClass('hidden');
+      init_aggregate();
+    });
+    });
+
+  $(document).on('click', '.coin', function(e) {
+    var id = this.id;
+    var exchange=id.split("-")[1];
+    var graph=id.split("-")[2];
+    document.getElementById(id).checked = true;
+    if (id.charAt(0)=='a'){
+      document.getElementById('adollars-'+exchange+'-'+graph).checked = false;
+      make_aggregate(exchange,graph,false);
+    }
+    else{
+      document.getElementById('dollars-'+exchange+'-'+graph).checked = false;
+      makegraph(exchange,graph,false);
+    }
+
+  });
+
+  $(document).on('click', '.dollars', function(e) {
+    var id = this.id;
+    var exchange=id.split("-")[1];
+    var graph=id.split("-")[2];
+    document.getElementById(id).checked = true;
+    if (id.charAt(0)=='a'){
+      document.getElementById('acoin-'+exchange+'-'+graph).checked = false;
+      make_aggregate(exchange,graph);
+    }
+    else{
+      document.getElementById('coin-'+exchange+'-'+graph).checked = false;
+      makegraph(exchange,graph);
+    }
+  });
+
+  socket.on('draw_oi_graphs', function(msg) {
+    open_interest = JSON.parse(JSON.stringify(msg['open_interest']));
+    if (!$( "open-interest" ).hasClass( "hidden" )){
+        init_open_interests();
+      }
+    else if (!$( "comparison-interest" ).hasClass( "hidden" )){
+        init_comparison();
+      }
+    else{
+      init_aggregate();
+    }
+  });
+
+  // function checkFirstVisit() {
+  //   if(document.cookie.indexOf('mycookie')==-1) {
+  //     // cookie doesn't exist, create it now
+  //     document.cookie = 'mycookie=1';
+  //
+  //   }
+  // }
+
+  function refresh(){
+    socket.emit('refresh_oi');
+    setTimeout(refresh, 30000);
+  }
+
+  init_comparison_divs();
+  init_aggregate_divs();
+  init_divs();
+  init_open_interests();
+  // refresh();
+  setTimeout(function() { refresh(); }, 30000);
+
+
+</script>
+
+{% endblock javascript %}

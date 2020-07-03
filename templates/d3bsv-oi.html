@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel ="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+    <title> Open Interest </title>
+
+    <!--
+    <ul>
+        <li><a id = "oi" href="/d3bitmex">Open Interest</a></li>
+        <li><a href="/d3bitmexliquidations">Liquidations</a></li>
+        <li><a href="/d3Prices">Prices</a></li>
+        <li><a href="/d3Volume">Volume</a></li>
+      </ul>
+
+  </head>
+  <body>
+ 
+    <a id = "bitmex" href = "/d3bitmex"> bitmex </a>
+    <a id = "binance" href = "/d3binance"> binance </a>
+    <a id = "bybit" href = "/d3bybit"> bybit </a>
+    <a id = "ftx" href = "/d3ftx"> FTX </a>
+    <a id = "huobi" href = "/d3huobi"> huobi </a>
+    <a id = "okex" href = "/d3okexUSDswap"> okex </a>
+    <a id = "deribit" href = "/d3deribit"> deribit </a>
+
+  -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
+    <div class="container">
+      <a href="/d3bitmex" id = "oi" class="navbar-brand font-weight-bold">Data Visualization</a>
+      <button type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+  
+  
+      <div id="navbarContent" class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <!-- Level one dropdown -->
+          <li class="nav-item dropdown">
+            <a id="dropdownMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Open Interest</a>
+            <ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
+              <li><a href="/d3bitmex" class="dropdown-item">Bitmex </a></li>
+              <li><a href="/d3binance" class="dropdown-item">Binance</a></li>
+              <li><a href="/d3bybit" class="dropdown-item">Bybit</a></li>
+              <li><a href="/d3ftx" class="dropdown-item">FTX</a></li>
+              <li><a href="/d3huobi" class="dropdown-item">Huobi</a></li>
+              <li><a href="/d3deribit" class="dropdown-item">Deribit</a></li>
+  
+              <li class="dropdown-divider"></li>
+  
+              <!-- Level two dropdown-->
+              <li class="dropdown-submenu">
+                <a id="dropdownMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Okex</a>
+                <ul aria-labelledby="dropdownMenu2" class="dropdown-menu border-0 shadow">
+                  <li>
+                    <a tabindex="-1" href="/d3okexUSDswap" class="dropdown-item">Coin Margined Swap</a>
+                  </li>
+  
+               
+  
+                  <li><a href="/d3okexUSDTswap" class="dropdown-item">USDT Margined Swap</a></li>
+                  <li><a href="/d3okexUSDfutures" class="dropdown-item">Coin Margined Futures</a></li>
+                  <li><a href="/d3okexUSDTfutures" class="dropdown-item">USDT Margined Futures</a></li>
+                </ul>
+              </li>
+              <!-- End Level two -->
+              
+              
+            </ul>
+          </li>
+          <!-- End Level one -->
+                  <li class="nav-item dropdown">
+   <a id="dropdownMenu3" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Liquidations</a>
+            <ul aria-labelledby="dropdownMenu3" class="dropdown-menu border-0 shadow">
+              <li><a href="/d3bitmexliquidations" class="dropdown-item">Bitmex </a></li>
+              <li><a href="/d3binanceliquidations" class="dropdown-item">Binance</a></li>
+              <li><a href="/d3okexliquidations" class="dropdown-item">Okex</a></li>
+              <li><a href="/d3ftxliquidations" class="dropdown-item">FTX</a></li>
+              
+              <!-- End Level two -->
+              
+              
+            </ul>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a id="dropdownMenu5" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle"> Aggregative Open Interest</a>
+                       <ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
+                        <li><a href="/d3btc-oi" class="dropdown-item">BTC </a></li>
+                        <li><a href="/d3eth-oi" class="dropdown-item">ETH</a></li>
+                        <li><a href="/d3xrp-oi" class="dropdown-item">XRP</a></li>
+                        <li><a href="/d3bch-oi" class="dropdown-item">BCH</a></li>
+                        <li><a href="/d3bsv-oi" class="dropdown-item">BSV</a></li>
+                        <li><a href="/d3ltc-oi" class="dropdown-item">LTC</a></li>
+                        <li><a href="/d3bnb-oi" class="dropdown-item">BNB</a></li>
+                        <li><a href="/d3trx-oi" class="dropdown-item">TRX</a></li>
+                        <li><a href="/d3eos-oi" class="dropdown-item">EOS</a></li>
+                        <li><a href="/d3open-interest" class="dropdown-item">Custom</a></li>
+
+                         <!-- <li><a href="/d3ftxliquidations" class="dropdown-item">FTX</a></li>-->
+                         
+                         <!-- End Level two -->
+                         
+                         
+                       </ul>
+                       </li>
+
+           
+            <li class="nav-item dropdown">
+   <a id="dropdownMenu4" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Volume</a>
+            <ul aria-labelledby="dropdownMenu4" class="dropdown-menu border-0 shadow">
+              <li><a href="/d3bitmexvolume" class="dropdown-item">Bitmex </a></li>
+              
+              <!-- End Level two -->
+              
+              
+            </ul>
+            </li>
+         
+          <li class="nav-item"><a href="/d3Prices" class="nav-link">Prices</a></li>
+          
+        </ul> </li>
+      </div>
+    </div>
+  </nav>
+  <script>
+      $(function() {
+  // ------------------------------------------------------- //
+  // Multi Level dropdowns
+  // ------------------------------------------------------ //
+  $("ul.dropdown-menu [data-toggle='dropdown']").on("click", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    $(this).siblings().toggleClass("show");
+
+
+    if (!$(this).next().hasClass('show')) {
+      $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+    }
+    $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
+      $('.dropdown-submenu .show').removeClass("show");
+    });
+
+  });
+});
+  </script>
+  <style>
+       ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+li {
+  display: inline;
+}
+        body {
+          font: 14px sans-serif;
+          position: absolute;
+          margin-left:40px;
+        }
+        
+        .bar{
+            fill: grey;
+            opacity: .8;
+        }
+         
+        .axis path,
+        .axis line {
+          fill: none;
+          stroke: #000;
+          shape-rendering: crispEdges;
+        }
+        
+        .line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+.axisSteelBlue text{
+  fill: steelblue;
+}
+
+.axisRed text{
+  fill: red;
+}
+        
+        .tooltip {
+          position: absolute;
+          width: 200px;
+          height: 28px;
+          pointer-events: none;
+        }
+
+      .dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu>a:after {
+  content: "\f0da";
+  float: right;
+  border: none;
+}
+
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: 0px;
+  margin-left: 0px;
+}
+
+  </style>
+<br> Aggregative BSV OI across Exchange
+<button id = "1h" onclick="update('1h')">  1 Hour </button>
+    <button id = "2h" onclick="update('2h')">  2 Hours </button>
+    <button id = "12h" onclick="update('12h')">  12 Hours </button>
+    <button id = "1d" onclick="update('1d')">  1 Day </button>
+    <button id = "1d" onclick="update('3d')">  3 Days </button>
+    <button id = "1d" onclick="update('7d')">  7 Days </button>
+
+
+<svg id = "svg" width="1200" height="450"></svg>
+    
+<script>
+var margin = {top: 10, right: 100, bottom: 30, left: 100},
+    width = 1200 - margin.left - margin.right,
+    height = 450 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#svg")
+  .append("svg")
+    .attr("width", 50 + width + margin.left + margin.right )
+    .attr("height", 100 + height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+  
+          var parseTime = d3.timeParse("%Y-%m-%dT%H:%M");
+
+          function update(selectedVar){
+            svg.selectAll("*").remove();
+
+  //Read the data
+  d3.csv("/static/js/open-interest/BSV-" + selectedVar + "-open-interest-usd.csv", function(data) {
+
+    data.forEach(function(d) {
+          d.date = parseTime(d.date);
+      });
+  
+    
+    var keys = data.columns.slice(1)
+
+  
+    // Stack the data: each group will be represented on top of each other
+    var stackedData = d3.stack()
+    .keys(keys)
+    (data)
+
+  
+    // Add X axis --> it is a date format
+    var x = d3.scaleTime()
+      .domain(d3.extent(data, function(d) { //console.log(d.year) 
+      return (d.date)}))
+      .range([ 0, width - 40]);
+
+var xAxis = svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x).ticks(5))
+
+    // Add Y axis
+    //var max = {{max_value}};
+    //var min = {{min_value}};
+    //console.log(min);
+    var y = d3.scaleLinear()
+      .domain([ 4555050 * .8,  10999660 * 2.6])
+      .range([ height, 0 ]);
+    svg.append("g")
+      .call(d3.axisLeft(y));
+  
+
+    // color palette
+    var color = d3.scaleOrdinal()
+     .domain(keys)
+      .range(["#1f77b4",  "#2ca02c", "#ff7f0e", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"])
+  
+    // Show the areas
+   // svg
+     // .selectAll("mylayers")
+     // .data(stackedData)
+     // .enter()
+  //    .append("path")
+   //     .style("fill", function(d) { name = mygroups[d.key-1] ;  return color(name); })
+   //     .attr("d", d3.area()
+   //       .x(function(d, i) { 
+    //       return x(new Date(d.data.key)); })
+     //     .y0(function(d) { 
+     //       return y(d[0]); })
+    //      .y1(function(d) { return y(d[1]); })
+   //   )
+
+
+
+//////////
+  // BRUSHING AND CHART //
+  //////////
+
+  // Add a clipPath: everything out of this area won't be drawn.
+  var clip = svg.append("defs").append("svg:clipPath")
+      .attr("id", "clip")
+      .append("svg:rect")
+      .attr("width", width )
+      .attr("height", height )
+      .attr("x", 0)
+      .attr("y", 0);
+
+  // Add brushing
+  var brush = d3.brushX()                 // Add the brush feature using the d3.brush function
+      .extent( [ [0,0], [width,height] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+      .on("end", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
+
+  // Create the scatter variable: where both the circles and the brush take place
+  var areaChart = svg.append('g')
+    .attr("clip-path", "url(#clip)")
+
+  // Area generator
+  var area = d3.area()
+    .x(function(d) { 
+      return x( new Date (d.data.date)); })
+    .y0(function(d) { 
+    return y(d[0]); })
+    .y1(function(d) { return y(d[1]); })
+
+  // Show the areas
+  areaChart
+    .selectAll("mylayers")
+    .data(stackedData)
+    .enter()
+    .append("path")
+      .attr("class", function(d) { return "myArea " + d.key })
+      .style("fill", function(d) { return color(d.key); })
+      .attr("d", area)
+
+
+  // Add the brushing
+  areaChart
+    .append("g")
+      .attr("class", "brush")
+      .call(brush);
+
+  var idleTimeout
+  function idled() { idleTimeout = null; }
+
+  // A function that update the chart for given boundaries
+  function updateChart() {
+
+    extent = d3.event.selection
+
+    // If no selection, back to initial coordinate. Otherwise, update X axis domain
+    if(!extent){
+      if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
+      x.domain(d3.extent(data, function(d) { return d.year; }))
+    }else{
+      x.domain([ x.invert(extent[0]), x.invert(extent[1]) ])
+      areaChart.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
+    }
+
+    // Update axis and area position
+    xAxis.transition().duration(1000).call(d3.axisBottom(x).ticks(5))
+    areaChart
+      .selectAll("path")
+      .transition().duration(1000)
+      .attr("d", area)
+    }
+
+
+
+    //////////
+    // HIGHLIGHT GROUP //
+    //////////
+
+    // What to do when one group is hovered
+    var highlight = function(d){
+      // reduce opacity of all groups
+      d3.selectAll(".myArea").style("opacity", .1)
+      // expect the one that is hovered
+      d3.select("."+d).style("opacity", 1)
+    }
+
+    // And when it is not hovered anymore
+    var noHighlight = function(d){
+      d3.selectAll(".myArea").style("opacity", 1)
+    }
+
+
+
+    //////////
+    // LEGEND //
+    //////////
+
+    // Add one dot in the legend for each name.
+    var size = 8
+    svg.selectAll("myrect")
+      .data(keys)
+      .enter()
+      .append("rect")
+        .attr("x", width - 35)
+        .attr("y", function(d,i){ return  -5 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
+        .attr("width", size)
+        .attr("height", size)
+        .style("fill", function(d){ return color(d)})
+        .on("mouseover", highlight)
+        .on("mouseleave", noHighlight)
+
+    // Add one dot in the legend for each name.
+    svg.selectAll("mylabels")
+      .data(keys)
+      .enter()
+      .append("text")
+        .attr("x", width + size*1.2 - 35)
+        .attr("y", function(d,i){ return -5 + i*(size+5) + (size/2)}) // 100 is where the first dot appears. 25 is the distance between dots
+        .style("fill", function(d){ return color(d)})
+        .text(function(d){ return d})
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle")
+        .on("mouseover", highlight)
+        .on("mouseleave", noHighlight)
+})
+          }
+
+          update('2h');
+</script>
+
+
+
+
+  </script>  
+
+  </body>
+</html>

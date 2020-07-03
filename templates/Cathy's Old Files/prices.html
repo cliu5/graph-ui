@@ -1,0 +1,176 @@
+{% extends "base.html"%}
+{% block content %}
+
+  <div id="all-prices">
+    <center>
+    <h4>Prices</h4>
+    <div id='prices'>
+      <div id='prices-row' class="row">
+      </div>
+    </div>
+    </center>
+  </div><br><br>
+
+{% endblock content %}
+
+{% block javascript %}
+
+  <script type="text/javascript">
+
+    prices=JSON.parse(JSON.stringify({{prices | safe}}));
+    dates = {{dates | safe}};
+    standard_prices = return_standard_prices(prices);
+
+    function init_price_divs(){
+      var d = document.getElementById('prices-row');
+      for (var coin in prices) {
+        var iDiv = document.createElement("div");
+        iDiv.className = 'col-md-4';
+        d.appendChild(iDiv);
+
+        var innerDiv = document.createElement('div');
+        innerDiv.className = 'chart';
+        innerDiv.id = coin.toLowerCase() + '-prices';
+        iDiv.appendChild(innerDiv);
+
+        if (coin=='BTC' || coin=='ETH'){
+          var iDiv = document.createElement("div");
+          iDiv.className = 'col-md-4';
+          d.appendChild(iDiv);
+
+          var innerDiv = document.createElement('div');
+          innerDiv.className = 'table';
+          innerDiv.id = coin.toLowerCase() + '-chart';
+          iDiv.appendChild(innerDiv);
+        }
+      }
+    }
+
+    function makeprices() {
+      for (var key in standard_prices){
+        var exchanges = return_keys(standard_prices[key]);
+        var p = return_values_last(standard_prices[key], key);
+        var percentages = percent(p);
+        var data = [{
+            x: exchanges,
+            y: p,
+            text: percentages,
+            textposition: 'auto',
+            type: 'bar',
+            hovertemplate: '<b>%{x}</b>' +
+                  '<br>$%{y}<br>' +
+                  '%{text}',
+            // hoverinfo: percentages,
+            marker:{
+                color: repeat(['rgba(64, 73, 79, 1)'], p.length)
+              },
+          }];
+        var layout = {
+          title: key + ' Prices' +' (USD)',
+          yaxis: {title: 'in USD ($)'},
+        };
+        Plotly.newPlot(key.toLowerCase() + '-prices', data, layout);
+      }
+  }
+
+  function make_tables(){
+    var coins = ['BTC','ETH'];
+
+    for (var index in coins){
+
+      function last_price(dict){
+        var price=0;
+        if (dict){
+          var { [Object.keys(dict).pop()]: price } = dict;
+          return Math.round(price['price']*100)/100;
+        }
+        else{
+          return price;
+        }
+      }
+
+      var bitmex_prices = [];
+      var coin = coins[index];
+      var c = coin;
+      if (coin=='BTC'){
+        c = 'XBT';
+        var m20=last_price(prices[coin]['bitmex'][c+'M20'])
+      }
+      else{
+        var m20='-';
+      }
+      var usd=last_price(prices[coin]['bitmex'][c+'USD']);
+      var h20=last_price(prices[coin]['bitmex'][c+'H20']);
+      bitmex_prices = [usd,'-','-',h20,m20];
+
+      var okex_prices = [];
+      var perp=last_price(prices[coin]['okex'][coin+'-USD-SWAP']);
+      var weekly=last_price(prices[coin]['okex'][coin+'-USD-'+dates[0]]);
+      var biweekly=last_price(prices[coin]['okex'][coin+'-USD-'+dates[1]]);
+      var quarterly=last_price(prices[coin]['okex'][coin+'-USD-'+dates[2]]);
+      okex_prices = [perp,weekly,biweekly,quarterly,'-'];
+
+      var deribit_prices = [];
+      var perp=last_price(prices[coin]['deribit'][coin+'-PERPETUAL']);
+      var biweekly=last_price(prices[coin]['deribit'][coin+'-'+dates[4]]);
+      var quarterly=last_price(prices[coin]['deribit'][coin+'-'+dates[5]]);
+      deribit_prices = [perp,'-',biweekly,quarterly,'-'];
+
+      var values = [
+      ['Perp'].concat(dates.slice(0,4)),
+      bitmex_prices,
+      okex_prices,
+      deribit_prices
+      ]
+
+      var data = [{
+        type: 'table',
+        header: {
+          values: [["<b>Expiry</b>"], ["<b>BitMEX</b>"],
+      				 ["<b>OKex</b>"],["<b>Deribit</b>"]],
+          align: "center",
+          line: {width: 1, color: 'black'},
+          fill: {color: "grey"},
+          font: {size: 13, color: "white"}
+        },
+        cells: {
+          values: values,
+          align: "center",
+          line: {color: "black", width: 1},
+          font: {size: 13}
+        }
+      }]
+
+      var layout = {
+          title: coin + " $ Basis per Exchange",
+        }
+
+      Plotly.newPlot(coin.toLowerCase()+'-chart', data,layout);
+    }
+  }
+
+    function init_prices() {
+      makeprices();
+    }
+
+    socket.on('draw_price_graphs', function(msg) {
+      prices = JSON.parse(JSON.stringify(msg['prices']));
+      init_prices();
+    });
+
+    function refresh(){
+      socket.emit('refresh_price');
+      setTimeout(refresh, 30000);
+    }
+
+    init_price_divs();
+    init_prices();
+    make_tables();
+    refresh();
+
+
+  </script>
+
+{% endblock javascript %}
+
+<!-- next step: simplify code -->

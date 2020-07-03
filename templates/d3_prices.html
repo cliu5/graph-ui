@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+	<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel ="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+    <title> Open Interest </title>
+
+    <!--
+    <ul>
+        <li><a id = "oi" href="/d3bitmex">Open Interest</a></li>
+        <li><a href="/d3bitmexliquidations">Liquidations</a></li>
+        <li><a href="/d3Prices">Prices</a></li>
+        <li><a href="/d3Volume">Volume</a></li>
+      </ul>
+
+  </head>
+  <body>
+ 
+    <a id = "bitmex" href = "/d3bitmex"> bitmex </a>
+    <a id = "binance" href = "/d3binance"> binance </a>
+    <a id = "bybit" href = "/d3bybit"> bybit </a>
+    <a id = "ftx" href = "/d3ftx"> FTX </a>
+    <a id = "huobi" href = "/d3huobi"> huobi </a>
+    <a id = "okex" href = "/d3okexUSDswap"> okex </a>
+    <a id = "deribit" href = "/d3deribit"> deribit </a>
+
+  -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
+    <div class="container">
+      <a href="/d3bitmex" class="navbar-brand font-weight-bold">Data Visualization</a>
+      <button type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+  
+  
+      <div id="navbarContent" class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <!-- Level one dropdown -->
+          <li class="nav-item dropdown">
+            <a id="dropdownMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Open Interest</a>
+            <ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
+              <li><a href="/d3bitmex" class="dropdown-item">Bitmex </a></li>
+              <li><a href="/d3binance" class="dropdown-item">Binance</a></li>
+              <li><a href="/d3bybit" class="dropdown-item">Bybit</a></li>
+              <li><a href="/d3ftx" class="dropdown-item">FTX</a></li>
+              <li><a href="/d3huobi" class="dropdown-item">Huobi</a></li>
+              <li><a href="/d3deribit" class="dropdown-item">Deribit</a></li>
+  
+              <li class="dropdown-divider"></li>
+  
+              <!-- Level two dropdown-->
+              <li class="dropdown-submenu">
+                <a id="dropdownMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Okex</a>
+                <ul aria-labelledby="dropdownMenu2" class="dropdown-menu border-0 shadow">
+                  <li>
+                    <a tabindex="-1" href="/d3okexUSDswap" class="dropdown-item">Coin Margined Swap</a>
+                  </li>
+  
+               
+  
+                  <li><a href="/d3okexUSDTswap" class="dropdown-item">USDT Margined Swap</a></li>
+                  <li><a href="/d3okexUSDfutures" class="dropdown-item">Coin Margined Futures</a></li>
+                  <li><a href="/d3okexUSDTfutures" class="dropdown-item">USDT Margined Futures</a></li>
+                </ul>
+              </li>
+              <!-- End Level two -->
+              
+              
+            </ul>
+          </li>
+          <!-- End Level one -->
+                  <li class="nav-item dropdown">
+   <a id="dropdownMenu3" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Liquidations</a>
+            <ul aria-labelledby="dropdownMenu3" class="dropdown-menu border-0 shadow">
+              <li><a href="/d3bitmexliquidations" class="dropdown-item">Bitmex </a></li>
+              <li><a href="/d3binanceliquidations" class="dropdown-item">Binance</a></li>
+              <li><a href="/d3okexliquidations" class="dropdown-item">Okex</a></li>
+              <li><a href="/d3ftxliquidations" class="dropdown-item">FTX</a></li>
+              
+              <!-- End Level two -->
+              
+              
+            </ul>
+            </li>
+			<li class="nav-item dropdown">
+				<a id="dropdownMenu5" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle"> Aggregative Open Interest</a>
+						 <ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
+						   <li><a href="/d3btc-oi" class="dropdown-item">BTC </a></li>
+						   <li><a href="/d3eth-oi" class="dropdown-item">ETH</a></li>
+						   <li><a href="/d3xrp-oi" class="dropdown-item">XRP</a></li>
+						   <!-- <li><a href="/d3ftxliquidations" class="dropdown-item">FTX</a></li>-->
+						   
+						   <!-- End Level two -->
+						   
+						   
+						 </ul>
+						 </li>
+            <li class="nav-item dropdown">
+   <a id="dropdownMenu4" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Volume</a>
+            <ul aria-labelledby="dropdownMenu4" class="dropdown-menu border-0 shadow">
+              <li><a href="/d3bitmexvolume" class="dropdown-item">Bitmex </a></li>
+              
+              <!-- End Level two -->
+              
+              
+            </ul>
+            </li>
+         
+          <li class="nav-item"><a href="/d3Prices" class="nav-link">Prices</a></li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <script>
+      $(function() {
+  // ------------------------------------------------------- //
+  // Multi Level dropdowns
+  // ------------------------------------------------------ //
+  $("ul.dropdown-menu [data-toggle='dropdown']").on("click", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    $(this).siblings().toggleClass("show");
+
+
+    if (!$(this).next().hasClass('show')) {
+      $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+    }
+    $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
+      $('.dropdown-submenu .show').removeClass("show");
+    });
+
+  });
+});
+  </script>
+  <style>
+       ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+li {
+  display: inline;
+}
+        body {
+          font: 14px sans-serif;
+          position: absolute;
+          margin-left:40px;
+        }
+        
+        .bar{
+            fill: steelblue;
+            opacity: .8;
+        }
+         
+        .axis path,
+        .axis line {
+          fill: none;
+          stroke: #000;
+          shape-rendering: crispEdges;
+        }
+        
+        .dot {
+          stroke: #000;
+        }
+        
+        .tooltip {
+          position: absolute;
+          width: 200px;
+          height: 28px;
+          pointer-events: none;
+        }
+
+      .dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu>a:after {
+  content: "\f0da";
+  float: right;
+  border: none;
+}
+
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: 0px;
+  margin-left: 0px;
+}
+
+  </style>
+
+<br>
+BTC-PERP Price
+<br>
+<svg id = "svg1" width="890" height="450"> </svg>
+<script>
+
+$(function() {
+          $('a#prices').bind('click', function() {
+            $.getJSON('/refresh_prices',
+            
+                function(data) {
+            });
+            return false;
+
+          });
+        });
+
+d3.csv("/static/js/prices/BTC-prices.csv", function(error, data) {
+
+    var margin = {top:10, right:10, bottom:90, left:60};
+
+var width = 960 - margin.left - margin.right;
+
+var height = 500 - margin.top - margin.bottom;
+
+var xScale = d3.scale.ordinal().rangeRoundBands([0, width], .03)
+
+var yScale = d3.scale.linear()
+      .range([height, 0]);
+
+
+var xAxis = d3.svg.axis()
+		.scale(xScale)
+		.orient("bottom");
+      
+      
+var yAxis = d3.svg.axis()
+		.scale(yScale)
+		.orient("left");
+
+var svg = d3.select("#svg1")
+		.attr("width", width+margin.left + margin.right)
+		.attr("height",height+margin.top + margin.bottom)
+		.append("g").attr("class", "container")
+		.attr("transform", "translate("+ margin.left +","+ margin.top +")");
+
+xScale.domain(data.map(function(d) { return d.exchange; }));
+yScale.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+
+//xAxis. To put on the top, swap "(height)" with "-5" in the translate() statement. Then you'll have to change the margins above and the x,y attributes in the svgContainer.select('.x.axis') statement inside resize() below.
+var xAxis_g = svg.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0," + (height) + ")")
+		.call(xAxis)
+		.selectAll("text");
+			
+// Uncomment this block if you want the y axis
+var yAxis_g = svg.append("g")
+		.attr("class", "y axis")
+		.call(yAxis)
+		.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 6).attr("dy", ".71em")
+		//.style("text-anchor", "end").text("Number of Applicatons"); 
+
+
+
+	svg.selectAll(".bar")
+  		.data(data)
+  		.enter()
+  		.append("rect")
+  		.attr("class", "bar")
+  		.attr("x", function(d) { return xScale(d.exchange) + 35; })
+  		.attr("width", xScale.rangeBand()-70)
+  		.attr("y", function(d) { return yScale(d.price); })
+  		.attr("height", function(d) { return height - yScale(d.price); });
+
+
+          svg.selectAll(".text")  		
+	  .data(data)
+	  .enter()
+	  .append("text")
+	  .attr("class","label")
+	  .attr("x", (function(d) { return xScale(d.exchange) + (xScale.rangeBand() / 2 - 21); }  ))
+	  .attr("y", function(d) { return yScale(d.price) + 1; })
+	  .attr("dy", "1em")
+	  .text(function(d) { return d.percent; });   	  
+
+
+});
+
+</script>
+<div id = "table" width="1200" height="800"> </div>
+<script>
+	d3.text("/static/js/prices/BTC-table-prices.csv", function(error, data) {
+		var parsedCSV = d3.csv.parseRows(data);
+	
+
+	var svg = d3.select("#table")
+		.append("table")
+		.style("border-collapse", "collapse")
+		.style("border", "2px black solid")
+	
+		.selectAll("tr")
+		.data(parsedCSV)
+		.enter().append("tr")
+	
+		.selectAll("td")
+		.data(function(d){return d;})
+		.enter().append("td")
+		.style("border", "2px black solid")
+		.style("padding", "10px")
+		.on("mouseover", function(){d3.select(this).style("background-color", "aliceblue")})
+		.on("mouseout", function(){d3.select(this).style("background-color", "white")})
+		.text(function(d){return d;})
+		.style("font-size", "14px");
+	});
+			
+	</script>
+
+
+<br>
+ETH-PERP Price
+<br>
+
+<svg id = "svg2" width="890" height="450"> </svg>
+
+<script>
+
+
+d3.csv("/static/js/prices/ETH-prices.csv", function(error, data) {
+
+    var margin = {top:10, right:10, bottom:90, left:60};
+
+var width = 960 - margin.left - margin.right;
+
+var height = 500 - margin.top - margin.bottom;
+
+var xScale = d3.scale.ordinal().rangeRoundBands([0, width], .03)
+
+var yScale = d3.scale.linear()
+      .range([height, 0]);
+
+
+var xAxis = d3.svg.axis()
+		.scale(xScale)
+		.orient("bottom");
+      
+      
+var yAxis = d3.svg.axis()
+		.scale(yScale)
+		.orient("left");
+
+var svg2 = d3.select("#svg2")
+		.attr("width", width+margin.left + margin.right)
+		.attr("height",height+margin.top + margin.bottom)
+		.append("g").attr("class", "container")
+		.attr("transform", "translate("+ margin.left +","+ margin.top +")");
+
+xScale.domain(data.map(function(d) { return d.exchange; }));
+yScale.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+
+//xAxis. To put on the top, swap "(height)" with "-5" in the translate() statement. Then you'll have to change the margins above and the x,y attributes in the svgContainer.select('.x.axis') statement inside resize() below.
+var xAxis_g = svg2.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0," + (height) + ")")
+		.call(xAxis)
+		.selectAll("text");
+			
+// Uncomment this block if you want the y axis
+var yAxis_g = svg2.append("g")
+		.attr("class", "y axis")
+		.call(yAxis)
+		.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 6).attr("dy", ".71em")
+		//.style("text-anchor", "end").text("Number of Applicatons"); 
+
+
+
+	svg2.selectAll(".bar")
+  		.data(data)
+  		.enter()
+  		.append("rect")
+  		.attr("class", "bar")
+  		.attr("x", function(d) { return xScale(d.exchange) + 35; })
+  		.attr("width", xScale.rangeBand()-70)
+  		.attr("y", function(d) { return yScale(d.price); })
+  		.attr("height", function(d) { return height - yScale(d.price); });
+
+
+          svg2.selectAll(".text")  		
+	  .data(data)
+	  .enter()
+	  .append("text")
+	  .attr("class","label")
+	  .attr("x", (function(d) { return xScale(d.exchange) + xScale.rangeBand() / 2 ; }  ))
+	  .attr("y", function(d) { return yScale(d.price) + 1; })
+	  .attr("dy", "1em")
+	  .text(function(d) { return d.price; });   	  
+
+
+});
+</script>
+<br>
+<div id = "table2" width="1200" height="800"> </div>
+<script>
+	d3.text("/static/js/prices/ETH-table-prices.csv", function(error, data) {
+		var parsedCSV = d3.csv.parseRows(data);
+	
+
+	var svg = d3.select("#table2")
+		.append("table")
+		.style("border-collapse", "collapse")
+		.style("border", "2px black solid")
+	
+		.selectAll("tr")
+		.data(parsedCSV)
+		.enter().append("tr")
+	
+		.selectAll("td")
+		.data(function(d){return d;})
+		.enter().append("td")
+		.style("border", "2px black solid")
+		.style("padding", "10px")
+		.on("mouseover", function(){d3.select(this).style("background-color", "aliceblue")})
+		.on("mouseout", function(){d3.select(this).style("background-color", "white")})
+		.text(function(d){return d;})
+		.style("font-size", "14px");
+	});
+			
+	</script>
+
+
+BSV-PERP Price
+<br>
+
+<svg id = "svg3" width="890" height="450"> </svg>
+
+<script>
+
+
+d3.csv("/static/js/prices/BSV-prices.csv", function(error, data) {
+
+    var margin = {top:10, right:10, bottom:90, left:60};
+
+var width = 960 - margin.left - margin.right;
+
+var height = 500 - margin.top - margin.bottom;
+
+var xScale = d3.scale.ordinal().rangeRoundBands([0, width], .03)
+
+var yScale = d3.scale.linear()
+      .range([height, 0]);
+
+
+var xAxis = d3.svg.axis()
+		.scale(xScale)
+		.orient("bottom");
+      
+      
+var yAxis = d3.svg.axis()
+		.scale(yScale)
+		.orient("left");
+
+var svg3 = d3.select("#svg3")
+		.attr("width", width+margin.left + margin.right)
+		.attr("height",height+margin.top + margin.bottom)
+		.append("g").attr("class", "container")
+		.attr("transform", "translate("+ margin.left +","+ margin.top +")");
+
+xScale.domain(data.map(function(d) { return d.exchange; }));
+yScale.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+
+//xAxis. To put on the top, swap "(height)" with "-5" in the translate() statement. Then you'll have to change the margins above and the x,y attributes in the svgContainer.select('.x.axis') statement inside resize() below.
+var xAxis_g = svg3.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0," + (height) + ")")
+		.call(xAxis)
+		.selectAll("text");
+			
+// Uncomment this block if you want the y axis
+var yAxis_g = svg3.append("g")
+		.attr("class", "y axis")
+		.call(yAxis)
+		.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 6).attr("dy", ".71em")
+		//.style("text-anchor", "end").text("Number of Applicatons"); 
+
+
+
+	svg3.selectAll(".bar")
+  		.data(data)
+  		.enter()
+  		.append("rect")
+  		.attr("class", "bar")
+  		.attr("x", function(d) { return xScale(d.exchange) + 100; })
+  		.attr("width", xScale.rangeBand()-200)
+  		.attr("y", function(d) { return yScale(d.price); })
+  		.attr("height", function(d) { return height - yScale(d.price); });
+
+
+          svg3.selectAll(".text")  		
+	  .data(data)
+	  .enter()
+	  .append("text")
+	  .attr("class","label")
+	  .attr("x", (function(d) { return xScale(d.exchange) + xScale.rangeBand() / 2 ; }  ))
+	  .attr("y", function(d) { return yScale(d.price) + 1; })
+	  .attr("dy", "1em")
+	  .text(function(d) { return d.price; });   	  
+
+
+});
+</script>
+<br>
+
+LTC-PERP Price
+<br>
+
+<svg id = "svg4" width="890" height="450"> </svg>
+
+<script>
+
+
+d3.csv("/static/js/prices/LTC-prices.csv", function(error, data) {
+
+    var margin = {top:10, right:10, bottom:90, left:60};
+
+var width = 960 - margin.left - margin.right;
+
+var height = 500 - margin.top - margin.bottom;
+
+var xScale = d3.scale.ordinal().rangeRoundBands([0, width], .03)
+
+var yScale = d3.scale.linear()
+      .range([height, 0]);
+
+
+var xAxis = d3.svg.axis()
+		.scale(xScale)
+		.orient("bottom");
+      
+      
+var yAxis = d3.svg.axis()
+		.scale(yScale)
+		.orient("left");
+
+var svg4 = d3.select("#svg4")
+		.attr("width", width+margin.left + margin.right)
+		.attr("height",height+margin.top + margin.bottom)
+		.append("g").attr("class", "container")
+		.attr("transform", "translate("+ margin.left +","+ margin.top +")");
+
+xScale.domain(data.map(function(d) { return d.exchange; }));
+yScale.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+
+//xAxis. To put on the top, swap "(height)" with "-5" in the translate() statement. Then you'll have to change the margins above and the x,y attributes in the svgContainer.select('.x.axis') statement inside resize() below.
+var xAxis_g = svg4.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0," + (height) + ")")
+		.call(xAxis)
+		.selectAll("text");
+			
+// Uncomment this block if you want the y axis
+var yAxis_g = svg4.append("g")
+		.attr("class", "y axis")
+		.call(yAxis)
+		.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 6).attr("dy", ".71em")
+		//.style("text-anchor", "end").text("Number of Applicatons"); 
+
+
+
+	svg4.selectAll(".bar")
+  		.data(data)
+  		.enter()
+  		.append("rect")
+  		.attr("class", "bar")
+  		.attr("x", function(d) { return xScale(d.exchange) +150; })
+  		.attr("width", xScale.rangeBand()-300)
+  		.attr("y", function(d) { return yScale(d.price); })
+  		.attr("height", function(d) { return height - yScale(d.price); });
+
+
+          svg4.selectAll(".text")  		
+	  .data(data)
+	  .enter()
+	  .append("text")
+	  .attr("class","label")
+	  .attr("x", (function(d) { return xScale(d.exchange) + xScale.rangeBand() / 2 ; }  ))
+	  .attr("y", function(d) { return yScale(d.price) + 1; })
+	  .attr("dy", "1em")
+	  .text(function(d) { return d.price; });   	  
+
+
+});
+</script>
+<br>
+
+XRP-PERP Price
+<br>
+
+<svg id = "svg5" width="890" height="450"> </svg>
+
+<script>
+
+
+d3.csv("/static/js/prices/XRP-prices.csv", function(error, data) {
+
+    var margin = {top:10, right:10, bottom:90, left:60};
+
+var width = 960 - margin.left - margin.right;
+
+var height = 500 - margin.top - margin.bottom;
+
+var xScale = d3.scale.ordinal().rangeRoundBands([0, width], .03)
+
+var yScale = d3.scale.linear()
+      .range([height, 0]);
+
+
+var xAxis = d3.svg.axis()
+		.scale(xScale)
+		.orient("bottom");
+      
+      
+var yAxis = d3.svg.axis()
+		.scale(yScale)
+		.orient("left");
+
+var svg5 = d3.select("#svg5")
+		.attr("width", width+margin.left + margin.right)
+		.attr("height",height+margin.top + margin.bottom)
+		.append("g").attr("class", "container")
+		.attr("transform", "translate("+ margin.left +","+ margin.top +")");
+
+xScale.domain(data.map(function(d) { return d.exchange; }));
+yScale.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+
+//xAxis. To put on the top, swap "(height)" with "-5" in the translate() statement. Then you'll have to change the margins above and the x,y attributes in the svgContainer.select('.x.axis') statement inside resize() below.
+var xAxis_g = svg5.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0," + (height) + ")")
+		.call(xAxis)
+		.selectAll("text");
+			
+// Uncomment this block if you want the y axis
+var yAxis_g = svg5.append("g")
+		.attr("class", "y axis")
+		.call(yAxis)
+		.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 6).attr("dy", ".71em")
+		//.style("text-anchor", "end").text("Number of Applicatons"); 
+
+
+
+	svg5.selectAll(".bar")
+  		.data(data)
+  		.enter()
+  		.append("rect")
+  		.attr("class", "bar")
+  		.attr("x", function(d) { return xScale(d.exchange) + 40; })
+  		.attr("width", xScale.rangeBand()-80)
+  		.attr("y", function(d) { return yScale(d.price); })
+  		.attr("height", function(d) { return height - yScale(d.price); });
+
+
+          svg5.selectAll(".text")  		
+	  .data(data)
+	  .enter()
+	  .append("text")
+	  .attr("class","label")
+	  .attr("x", (function(d) { return xScale(d.exchange) + xScale.rangeBand() / 2 ; }  ))
+	  .attr("y", function(d) { return yScale(d.price) + 1; })
+	  .attr("dy", "1em")
+	  .text(function(d) { return d.price; });   	  
+
+
+});
+</script>
+<br>
+EOS-PERP Price
+<br>
+<svg id = "svg6" width="890" height="450"> </svg>
+
+<script>
+
+
+d3.csv("/static/js/prices/EOS-prices.csv", function(error, data) {
+
+    var margin = {top:10, right:10, bottom:90, left:60};
+
+var width = 960 - margin.left - margin.right;
+
+var height = 500 - margin.top - margin.bottom;
+
+var xScale = d3.scale.ordinal().rangeRoundBands([0, width], .03)
+
+var yScale = d3.scale.linear()
+      .range([height, 0]);
+
+
+var xAxis = d3.svg.axis()
+		.scale(xScale)
+		.orient("bottom");
+      
+      
+var yAxis = d3.svg.axis()
+		.scale(yScale)
+		.orient("left");
+
+var svg6 = d3.select("#svg6")
+		.attr("width", width+margin.left + margin.right)
+		.attr("height",height+margin.top + margin.bottom)
+		.append("g").attr("class", "container")
+		.attr("transform", "translate("+ margin.left +","+ margin.top +")");
+
+xScale.domain(data.map(function(d) { return d.exchange; }));
+yScale.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+
+//xAxis. To put on the top, swap "(height)" with "-5" in the translate() statement. Then you'll have to change the margins above and the x,y attributes in the svgContainer.select('.x.axis') statement inside resize() below.
+var xAxis_g = svg6.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0," + (height) + ")")
+		.call(xAxis)
+		.selectAll("text");
+			
+// Uncomment this block if you want the y axis
+var yAxis_g = svg6.append("g")
+		.attr("class", "y axis")
+		.call(yAxis)
+		.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 6).attr("dy", ".71em")
+		//.style("text-anchor", "end").text("Number of Applicatons"); 
+
+
+
+	svg6.selectAll(".bar")
+  		.data(data)
+  		.enter()
+  		.append("rect")
+  		.attr("class", "bar")
+  		.attr("x", function(d) { return xScale(d.exchange) + 50;})
+  		.attr("width", xScale.rangeBand()- 100)
+  		.attr("y", function(d) { return yScale(d.price); })
+  		.attr("height", function(d) { return height - yScale(d.price); });
+
+
+          svg6.selectAll(".text")  		
+	  .data(data)
+	  .enter()
+	  .append("text")
+	  .attr("class","label")
+	  .attr("x", (function(d) { return xScale(d.exchange) + xScale.rangeBand() / 2 ; }  ))
+	  .attr("y", function(d) { return yScale(d.price) + 1; })
+	  .attr("dy", "1em")
+	  .text(function(d) { return d.price; });   	  
+
+
+});
+</script>
+<br>
+
+ADA-PERP Price
+<br>
+
+<svg id = "svg7" width="890" height="450"> </svg>
+
+<script>
+
+
+d3.csv("/static/js/prices/ADA-prices.csv", function(error, data) {
+
+    var margin = {top:10, right:10, bottom:90, left:60};
+
+var width = 960 - margin.left - margin.right;
+
+var height = 500 - margin.top - margin.bottom;
+
+var xScale = d3.scale.ordinal().rangeRoundBands([0, width], .03)
+
+var yScale = d3.scale.linear()
+      .range([height, 0]);
+
+
+var xAxis = d3.svg.axis()
+		.scale(xScale)
+		.orient("bottom");
+      
+      
+var yAxis = d3.svg.axis()
+		.scale(yScale)
+		.orient("left");
+
+var svg7 = d3.select("#svg7")
+		.attr("width", width+margin.left + margin.right)
+		.attr("height",height+margin.top + margin.bottom)
+		.append("g").attr("class", "container")
+		.attr("transform", "translate("+ margin.left +","+ margin.top +")");
+
+xScale.domain(data.map(function(d) { return d.exchange; }));
+yScale.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+
+//xAxis. To put on the top, swap "(height)" with "-5" in the translate() statement. Then you'll have to change the margins above and the x,y attributes in the svgContainer.select('.x.axis') statement inside resize() below.
+var xAxis_g = svg7.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0," + (height) + ")")
+		.call(xAxis)
+		.selectAll("text");
+			
+// Uncomment this block if you want the y axis
+var yAxis_g = svg7.append("g")
+		.attr("class", "y axis")
+		.call(yAxis)
+		.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 6).attr("dy", ".71em")
+		//.style("text-anchor", "end").text("Number of Applicatons"); 
+
+
+
+	svg7.selectAll(".bar")
+  		.data(data)
+  		.enter()
+  		.append("rect")
+  		.attr("class", "bar")
+  		.attr("x", function(d) { return xScale(d.exchange) + 150; })
+  		.attr("width", xScale.rangeBand()-300)
+  		.attr("y", function(d) { return yScale(d.price); })
+  		.attr("height", function(d) { return height - yScale(d.price); });
+
+
+          svg7.selectAll(".text")  		
+	  .data(data)
+	  .enter()
+	  .append("text")
+	  .attr("class","label")
+	  .attr("x", (function(d) { return xScale(d.exchange) + xScale.rangeBand() / 2 ; }  ))
+	  .attr("y", function(d) { return yScale(d.price) + 1; })
+	  .attr("dy", "1em")
+	  .text(function(d) { return d.price; });   	  
+
+
+});
+</script>
+<br>
+
+ETC-PERP Price
+<br>
+
+<svg id = "svg8" width="890" height="450"> </svg>
+
+<script>
+
+
+d3.csv("/static/js/prices/ETC-prices.csv", function(error, data) {
+
+    var margin = {top:10, right:10, bottom:90, left:60};
+
+var width = 960 - margin.left - margin.right;
+
+var height = 500 - margin.top - margin.bottom;
+
+var xScale = d3.scale.ordinal().rangeRoundBands([0, width], .03)
+
+var yScale = d3.scale.linear()
+      .range([height, 0]);
+
+
+var xAxis = d3.svg.axis()
+		.scale(xScale)
+		.orient("bottom");
+      
+      
+var yAxis = d3.svg.axis()
+		.scale(yScale)
+		.orient("left");
+
+var svg8 = d3.select("#svg8")
+		.attr("width", width+margin.left + margin.right)
+		.attr("height",height+margin.top + margin.bottom)
+		.append("g").attr("class", "container")
+		.attr("transform", "translate("+ margin.left +","+ margin.top +")");
+
+xScale.domain(data.map(function(d) { return d.exchange; }));
+yScale.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+
+//xAxis. To put on the top, swap "(height)" with "-5" in the translate() statement. Then you'll have to change the margins above and the x,y attributes in the svgContainer.select('.x.axis') statement inside resize() below.
+var xAxis_g = svg8.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0," + (height) + ")")
+		.call(xAxis)
+		.selectAll("text");
+			
+// Uncomment this block if you want the y axis
+var yAxis_g = svg8.append("g")
+		.attr("class", "y axis")
+		.call(yAxis)
+		.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 6).attr("dy", ".71em")
+		//.style("text-anchor", "end").text("Number of Applicatons"); 
+
+
+
+	svg8.selectAll(".bar")
+  		.data(data)
+  		.enter()
+  		.append("rect")
+  		.attr("class", "bar")
+  		.attr("x", function(d) { return xScale(d.exchange) +100;})
+  		.attr("width", xScale.rangeBand()-200)
+  		.attr("y", function(d) { return yScale(d.price); })
+  		.attr("height", function(d) { return height - yScale(d.price); });
+
+
+          svg8.selectAll(".text")  		
+	  .data(data)
+	  .enter()
+	  .append("text")
+	  .attr("class","label")
+	  .attr("x", (function(d) { return xScale(d.exchange) + xScale.rangeBand() / 2 ; }  ))
+	  .attr("y", function(d) { return yScale(d.price) + 1; })
+	  .attr("dy", "1em")
+	  .text(function(d) { return d.price; });   	  
+
+
+});
+</script>
+<br>
+
+LINK-PERP Price
+<br>
+
+<svg id = "svg9" width="890" height="450"> </svg>
+
+<script>
+
+
+d3.csv("/static/js/prices/LINK-prices.csv", function(error, data) {
+
+    var margin = {top:10, right:10, bottom:90, left:60};
+
+var width = 960 - margin.left - margin.right;
+
+var height = 500 - margin.top - margin.bottom;
+
+var xScale = d3.scale.ordinal().rangeRoundBands([0, width], .03)
+
+var yScale = d3.scale.linear()
+      .range([height, 0]);
+
+
+var xAxis = d3.svg.axis()
+		.scale(xScale)
+		.orient("bottom");
+      
+      
+var yAxis = d3.svg.axis()
+		.scale(yScale)
+		.orient("left");
+
+var svg9 = d3.select("#svg9")
+		.attr("width", width+margin.left + margin.right)
+		.attr("height",height+margin.top + margin.bottom)
+		.append("g").attr("class", "container")
+		.attr("transform", "translate("+ margin.left +","+ margin.top +")");
+
+xScale.domain(data.map(function(d) { return d.exchange; }));
+yScale.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+
+//xAxis. To put on the top, swap "(height)" with "-5" in the translate() statement. Then you'll have to change the margins above and the x,y attributes in the svgContainer.select('.x.axis') statement inside resize() below.
+var xAxis_g = svg9.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0," + (height) + ")")
+		.call(xAxis)
+		.selectAll("text");
+			
+// Uncomment this block if you want the y axis
+var yAxis_g = svg9.append("g")
+		.attr("class", "y axis")
+		.call(yAxis)
+		.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 6).attr("dy", ".71em")
+		//.style("text-anchor", "end").text("Number of Applicatons"); 
+
+
+
+	svg9.selectAll(".bar")
+  		.data(data)
+  		.enter()
+  		.append("rect")
+  		.attr("class", "bar")
+  		.attr("x", function(d) { return xScale(d.exchange) + 200; })
+  		.attr("width", xScale.rangeBand()-400)
+  		.attr("y", function(d) { return yScale(d.price); })
+  		.attr("height", function(d) { return height - yScale(d.price); });
+
+
+          svg9.selectAll(".text")  		
+	  .data(data)
+	  .enter()
+	  .append("text")
+	  .attr("class","label")
+	  .attr("x", (function(d) { return xScale(d.exchange) + xScale.rangeBand() / 2 ; }  ))
+	  .attr("y", function(d) { return yScale(d.price) + 1; })
+	  .attr("dy", "1em")
+	  .text(function(d) { return d.price; });   	  
+
+
+});
+
+</script>

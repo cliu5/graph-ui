@@ -1,0 +1,2875 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel ="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+    <title> Open Interest </title>
+
+    <!--
+    <ul>
+        <li><a id = "oi" href="/d3bitmex">Open Interest</a></li>
+        <li><a href="/d3bitmexliquidations">Liquidations</a></li>
+        <li><a href="/d3Prices">Prices</a></li>
+        <li><a href="/d3Volume">Volume</a></li>
+      </ul>
+
+  </head>
+  <body>
+ 
+    <a id = "bitmex" href = "/d3bitmex"> bitmex </a>
+    <a id = "binance" href = "/d3binance"> binance </a>
+    <a id = "bybit" href = "/d3bybit"> bybit </a>
+    <a id = "ftx" href = "/d3ftx"> FTX </a>
+    <a id = "huobi" href = "/d3huobi"> huobi </a>
+    <a id = "okex" href = "/d3okexUSDswap"> okex </a>
+    <a id = "deribit" href = "/d3deribit"> deribit </a>
+
+  -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
+    <div class="container">
+      <a href="/d3bitmex" class="navbar-brand font-weight-bold">Data Visualization</a>
+      <button type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+  
+  
+      <div id="navbarContent" class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <!-- Level one dropdown -->
+          <li class="nav-item dropdown">
+            <a id="dropdownMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Open Interest</a>
+            <ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
+              <li><a href="/d3bitmex" class="dropdown-item">Bitmex </a></li>
+              <li><a href="/d3binance" class="dropdown-item">Binance</a></li>
+              <li><a href="/d3bybit" class="dropdown-item">Bybit</a></li>
+              <li><a href="/d3ftx" class="dropdown-item">FTX</a></li>
+              <li><a href="/d3huobi" class="dropdown-item">Huobi</a></li>
+              <li><a href="/d3deribit" class="dropdown-item">Deribit</a></li>
+  
+              <li class="dropdown-divider"></li>
+  
+              <!-- Level two dropdown-->
+              <li class="dropdown-submenu">
+                <a id="dropdownMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Okex</a>
+                <ul aria-labelledby="dropdownMenu2" class="dropdown-menu border-0 shadow">
+                  <li>
+                    <a tabindex="-1" href="/d3okexUSDswap" class="dropdown-item">Coin Margined Swap</a>
+                  </li>
+  
+               
+  
+                  <li><a href="/d3okexUSDTswap" class="dropdown-item">USDT Margined Swap</a></li>
+                  <li><a href="/d3okexUSDfutures" class="dropdown-item">Coin Margined Futures</a></li>
+                  <li><a href="/d3okexUSDTfutures" class="dropdown-item">USDT Margined Futures</a></li>
+                </ul>
+              </li>
+              <!-- End Level two -->
+              
+              
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a id="dropdownMenu5" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle"> Aggregative Open Interest</a>
+                     <ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
+                       <li><a href="/d3btc-oi" class="dropdown-item">BTC </a></li>
+                       <li><a href="/d3eth-oi" class="dropdown-item">ETH</a></li>
+                       <li><a href="/d3xrp-oi" class="dropdown-item">XRP</a></li>
+                       <!-- <li><a href="/d3ftxliquidations" class="dropdown-item">FTX</a></li>-->
+                       
+                       <!-- End Level two -->
+                       
+                       
+                     </ul>
+                     </li>
+                     
+          <!-- End Level one -->
+                  <li class="nav-item dropdown">
+   <a id="dropdownMenu3" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Liquidations</a>
+            <ul aria-labelledby="dropdownMenu3" class="dropdown-menu border-0 shadow">
+              <li><a href="/d3bitmexliquidations" class="dropdown-item">Bitmex </a></li>
+              <li><a href="/d3binanceliquidations" class="dropdown-item">Binance</a></li>
+              <li><a href="/d3okexliquidations" class="dropdown-item">Okex</a></li>
+              <li><a href="/d3ftxliquidations" class="dropdown-item">FTX</a></li>
+              
+              <!-- End Level two -->
+              
+              
+            </ul>
+            </li>
+           
+            <li class="nav-item dropdown">
+   <a id="dropdownMenu4" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Volume</a>
+            <ul aria-labelledby="dropdownMenu4" class="dropdown-menu border-0 shadow">
+              <li><a href="/d3bitmexvolume" class="dropdown-item">Bitmex </a></li>
+              
+              <!-- End Level two -->
+              
+              
+            </ul>
+            </li>
+         
+          <li class="nav-item"><a href="/d3Prices" class="nav-link">Prices</a></li>
+          <li class="nav-item"> <button> <a  id = "binance" class="nav-link">Refresh Binance</a></li> </button>
+
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <script>
+      $(function() {
+  // ------------------------------------------------------- //
+  // Multi Level dropdowns
+  // ------------------------------------------------------ //
+  $("ul.dropdown-menu [data-toggle='dropdown']").on("click", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    $(this).siblings().toggleClass("show");
+
+
+    if (!$(this).next().hasClass('show')) {
+      $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+    }
+    $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
+      $('.dropdown-submenu .show').removeClass("show");
+    });
+
+  });
+});
+  </script>
+  <style>
+       ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+li {
+  display: inline;
+}
+        body {
+          font: 14px sans-serif;
+          position: absolute;
+          margin-left:40px;
+        }
+        
+        .bar{
+            fill: grey;
+            opacity: .8;
+        }
+         
+        .axis path,
+        .axis line {
+          fill: none;
+          stroke: #000;
+          shape-rendering: crispEdges;
+        }
+        
+        .dot {
+          stroke: #000;
+        }
+        
+        .tooltip {
+          position: absolute;
+          width: 200px;
+          height: 28px;
+          pointer-events: none;
+        }
+
+      .dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu>a:after {
+  content: "\f0da";
+  float: right;
+  border: none;
+}
+
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: 0px;
+  margin-left: 0px;
+}
+
+  </style>
+
+  <body>
+
+      <br>
+      
+    binance ADAUSDT OI in USDT 
+    <button id = "1h" onclick="update('1h')">  1 Hour </button>
+    <button id = "2h" onclick="update('2h')">  2 Hours </button>
+    <button id = "12h" onclick="update('12h')">  12 Hours </button>
+    <button id = "1d" onclick="update('1d')">  1 Day </button>
+    <button id = "1d" onclick="update('3d')">  3 Days </button>
+    <label>
+        <input id="check" type="checkbox" > Coin Denominated
+      </label>
+
+    <br>
+    
+    <svg id = "svg1" width="890" height="450"></svg>
+    <script>
+      
+      $(function() {
+          $('a#binance').bind('click', function() {
+            $.getJSON('/refresh_binance',
+                function(data) {
+            });
+            return false;
+          });
+        });
+
+        $(function() {
+          $('a#oi').bind('click', function() {
+            $.getJSON('/refresh_oi',
+            
+                function(data) {
+            });
+            return false;
+          });
+        });
+
+    
+      
+      const xValue = d => d.date;
+      const xLabel = 'Time';
+      const yValue = d => d.value;
+      const yLabel = 'Open Interest';
+      const margin = { left: 80, right: 30, top: 20, bottom: 120 };
+      const svg = d3.select("#svg1");
+      
+
+
+              
+
+
+        function update(selectedVar){
+            var isChecked = document.getElementById("check").checked;
+            const width = svg.attr('width');
+      const height = svg.attr('height');
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+      svg.selectAll("*").remove();
+
+           // d3.selectAll('g > *').remove();
+
+
+      const g = svg.append('g')
+          .attr('transform', `translate(${margin.left},${margin.top})`);
+      const xAxisG = g.append('g')
+          .attr('transform', `translate(0, ${innerHeight})`);
+      const yAxisG = g.append('g');
+
+      xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+            if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+
+        d3.csv('/static/js/open-interest/binance-' + selectedVar + '-ADAUSDT-open-interest-'+file_name+ '.csv', row, data => {
+           xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();
+
+            g.selectAll('circle').data(data)
+            .enter().append('circle')
+                .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .4)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+            xAxisG.call(xAxis);
+            yAxisG.call(yAxis);
+        });
+      }
+      //update('2h');
+
+
+      //function refresh(){
+       // socket.emit('refresh_oi');
+     //setTimeout(refresh, 30000);
+
+
+
+    </script>
+
+<br>binance ATOMUSDT OI in USDT
+
+<button id = "1h" onclick="update2('1h')">  1 Hour </button>
+    <button id = "2h" onclick="update2('2h')">  2 Hours </button>
+    <button id = "12h" onclick="update2('12h')">  12 Hours </button>
+    <button id = "1d" onclick="update2('1d')">  1 Day </button>
+    <button id = "1d" onclick="update2('3d')">  3 Days </button>
+    <label>
+        <input id="check2" type="checkbox" > Coin Denominated
+      </label>
+      <br>
+
+      <svg id = "svg2" width="890" height="450"></svg>
+
+   <script> 
+
+
+    const svg2 = d3.select('#svg2');
+
+   
+
+    function update2(selectedVar){
+        var isChecked = document.getElementById("check2").checked;
+            const width = svg2.attr('width');
+      const height = svg2.attr('height');
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+      
+      svg2.selectAll("*").remove();
+
+            //d3.selectAll('svg2 > *').remove();
+
+
+      const g2 = svg2.append('g')
+          .attr('transform', `translate(${margin.left},${margin.top})`);
+      const xAxisG = g2.append('g')
+          .attr('transform', `translate(0, ${innerHeight})`);
+      const yAxisG = g2.append('g');
+
+      xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+
+            if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+        d3.csv('/static/js/open-interest/binance-' + selectedVar + '-ATOMUSDT-open-interest-' +file_name+ '.csv', row, data => {
+           xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();
+
+            g2.selectAll('circle').data(data)
+            .enter().append('circle')
+                .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 6)
+                .style("fill", "steelblue")
+            
+            xAxisG.call(xAxis);
+            yAxisG.call(yAxis);
+        });
+      }
+</script>
+
+
+<br>binance BCHUSDT OI in USDT
+<button id = "1h" onclick="update3('1h')">  1 Hour </button>
+    <button id = "2h" onclick="update3('2h')">  2 Hours </button>
+    <button id = "12h" onclick="update3('12h')">  12 Hours </button>
+    <button id = "1d" onclick="update3('1d')">  1 Day </button>
+    <button id = "1d" onclick="update3('3d')">  3 Days </button>
+
+    <label>
+        <input id="check3" type="checkbox" > Coin Denominated
+      </label>
+
+    <br>
+    <svg id = "svg3" width="890" height="450"></svg>
+
+   <script> 
+
+
+    const svg3 = d3.select('#svg3');
+
+   
+
+    function update3(selectedVar){
+        var isChecked = document.getElementById("check3").checked;
+
+            const width = svg3.attr('width');
+      const height = svg3.attr('height');
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+      
+      svg3.selectAll("*").remove();
+
+            //d3.selectAll('svg2 > *').remove();
+
+
+      const g3 = svg3.append('g')
+          .attr('transform', `translate(${margin.left},${margin.top})`);
+      const xAxisG = g3.append('g')
+          .attr('transform', `translate(0, ${innerHeight})`);
+      const yAxisG = g3.append('g');
+
+      xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+
+
+            if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+        d3.csv('/static/js/open-interest/binance-' + selectedVar + '-BCHUSDT-open-interest-' +file_name+ '.csv', row, data => {
+           xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();
+
+            g3.selectAll('circle').data(data)
+            .enter().append('circle')
+                .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .4)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+            xAxisG.call(xAxis);
+            yAxisG.call(yAxis);
+        });
+      }
+</script>
+
+
+
+<br>binance BNBUSDT OI in USDT
+<button id = "1h" onclick="update4('1h')">  1 Hour </button>
+    <button id = "2h" onclick="update4('2h')">  2 Hours </button>
+    <button id = "12h" onclick="update4('12h')">  12 Hours </button>
+    <button id = "1d" onclick="update4('1d')">  1 Day </button>
+    <button id = "1d" onclick="update4('3d')">  3 Days </button>
+    <label>
+        <input id="check4" type="checkbox" > Coin Denominated
+      </label>
+
+    <br>
+    <svg id = "svg4" width="890" height="450"></svg>
+
+   <script> 
+
+
+    const svg4 = d3.select('#svg4');
+
+   
+
+    function update4(selectedVar){
+        var isChecked = document.getElementById("check4").checked;
+
+            const width = svg4.attr('width');
+      const height = svg4.attr('height');
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+      
+      svg4.selectAll("*").remove();
+
+            //d3.selectAll('svg2 > *').remove();
+
+
+      const g4 = svg4.append('g')
+          .attr('transform', `translate(${margin.left},${margin.top})`);
+      const xAxisG = g4.append('g')
+          .attr('transform', `translate(0, ${innerHeight})`);
+      const yAxisG = g4.append('g');
+
+      xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+            if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+
+        d3.csv('/static/js/open-interest/binance-' + selectedVar + '-BNBUSDT-open-interest-' +file_name+ '.csv', row, data => {
+           xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();
+
+            g4.selectAll('circle').data(data)
+            .enter().append('circle')
+                .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .8)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+            xAxisG.call(xAxis);
+            yAxisG.call(yAxis);
+        });
+      }
+</script>
+
+
+
+<br>binance BTCUSDT OI in USDT
+<button id = "1h" onclick="update5('1h')">  1 Hour </button>
+    <button id = "2h" onclick="update5('2h')">  2 Hours </button>
+    <button id = "12h" onclick="update5('12h')">  12 Hours </button>
+    <button id = "1d" onclick="update5('1d')">  1 Day </button>
+    <button id = "1d" onclick="update5('3d')">  3 Days </button>
+    <label>
+        <input id="check5" type="checkbox" > Coin Denominated
+      </label>
+    <br>
+    <svg id = "svg5" width="890" height="450"></svg>
+
+   <script> 
+
+
+    const svg5 = d3.select('#svg5');
+
+   
+
+    function update5(selectedVar){
+        var isChecked = document.getElementById("check5").checked;
+            const width = svg5.attr('width');
+      const height = svg5.attr('height');
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+      
+      svg5.selectAll("*").remove();
+
+            //d3.selectAll('svg2 > *').remove();
+
+
+      const g5 = svg5.append('g')
+          .attr('transform', `translate(${margin.left},${margin.top})`);
+      const xAxisG = g5.append('g')
+          .attr('transform', `translate(0, ${innerHeight})`);
+      const yAxisG = g5.append('g');
+
+      xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+
+            if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+        d3.csv('/static/js/open-interest/binance-' + selectedVar + '-BTCUSDT-open-interest-' +file_name+ '.csv', row, data => {
+           xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();
+
+            g5.selectAll('circle').data(data)
+            .enter().append('circle')
+                .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+            xAxisG.call(xAxis);
+            yAxisG.call(yAxis);
+        });
+      }
+</script>
+
+
+<br>binance ETHUSDT OI in USDT
+<button id = "1h" onclick="update6('1h')">  1 Hour </button>
+    <button id = "2h" onclick="update6('2h')">  2 Hours </button>
+    <button id = "12h" onclick="update6('12h')">  12 Hours </button>
+    <button id = "1d" onclick="update6('1d')">  1 Day </button>
+    <button id = "1d" onclick="update6('3d')">  3 Days </button>
+    <label>
+        <input id="check6" type="checkbox" > Coin Denominated
+      </label>
+    <br>
+    <svg id = "svg6" width="890" height="450"></svg>
+
+   <script> 
+
+
+    const svg6 = d3.select('#svg6');
+
+   
+
+    function update6(selectedVar){
+        var isChecked = document.getElementById("check6").checked;
+            const width = svg6.attr('width');
+      const height = svg6.attr('height');
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+      
+      svg6.selectAll("*").remove();
+
+            //d3.selectAll('svg2 > *').remove();
+
+
+      const g6 = svg6.append('g')
+          .attr('transform', `translate(${margin.left},${margin.top})`);
+      const xAxisG = g6.append('g')
+          .attr('transform', `translate(0, ${innerHeight})`);
+      const yAxisG = g6.append('g');
+
+      xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+            if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+
+
+        d3.csv('/static/js/open-interest/binance-' + selectedVar + '-ETHUSDT-open-interest-' +file_name+ '.csv', row, data => {
+           xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();
+
+            g6.selectAll('circle').data(data)
+            .enter().append('circle')
+                .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+            xAxisG.call(xAxis);
+            yAxisG.call(yAxis);
+        });
+      }
+      
+update('2h')
+update2('2h')
+update3('2h')
+update4('2h')
+update5('2h')
+update6('2h')
+
+</script>
+
+</script>
+
+<br> binance LINKUSDT OI in USDT
+<button id = "1h" onclick="update7('1h')">  1 Hour </button>
+    <button id = "2h" onclick="update7('2h')">  2 Hours </button>
+    <button id = "12h" onclick="update7('12h')">  12 Hours </button>
+    <button id = "1d" onclick="update7('1d')">  1 Day </button>
+    <button id = "1d" onclick="update7('3d')">  3 Days </button>
+    <label>
+        <input id="check7" type="checkbox" > Coin Denominated
+      </label>
+
+    <br>
+    <svg id = "svg7" width="890" height="450"></svg>
+
+   <script> 
+
+
+    const svg7 = d3.select('#svg7');
+
+   
+
+    function update7(selectedVar){
+        var isChecked = document.getElementById("check7").checked;
+            const width = svg7.attr('width');
+      const height = svg7.attr('height');
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+      
+      svg7.selectAll("*").remove();
+
+            //d3.selectAll('svg2 > *').remove();
+
+
+      const g7 = svg7.append('g')
+          .attr('transform', `translate(${margin.left},${margin.top})`);
+      const xAxisG = g7.append('g')
+          .attr('transform', `translate(0, ${innerHeight})`);
+      const yAxisG = g7.append('g');
+
+      xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+            if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+
+
+        d3.csv('/static/js/open-interest/binance-' + selectedVar + '-LINKUSDT-open-interest-' +file_name+ '.csv', row, data => {
+           xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();
+
+            g7.selectAll('circle').data(data)
+            .enter().append('circle')
+                .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+            xAxisG.call(xAxis);
+            yAxisG.call(yAxis);
+        });
+      }
+    </script>
+
+
+
+<br> binance LTCUSDT OI in USDT
+<button id = "1h" onclick="update8('1h')">  1 Hour </button>
+    <button id = "2h" onclick="update8('2h')">  2 Hours </button>
+    <button id = "12h" onclick="update8('12h')">  12 Hours </button>
+    <button id = "1d" onclick="update8('1d')">  1 Day </button>
+    <button id = "1d" onclick="update8('3d')">  3 Days </button>
+    <label>
+        <input id="check8" type="checkbox" > Coin Denominated
+      </label>
+    <br>
+    <svg id = "svg8" width="890" height="450"></svg>
+
+   <script> 
+
+
+    const svg8 = d3.select('#svg8');
+
+   
+
+    function update8(selectedVar){
+        var isChecked = document.getElementById("check8").checked;
+            const width = svg8.attr('width');
+      const height = svg8.attr('height');
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+      
+      svg8.selectAll("*").remove();
+
+            //d3.selectAll('svg2 > *').remove();
+
+
+      const g8 = svg8.append('g')
+          .attr('transform', `translate(${margin.left},${margin.top})`);
+      const xAxisG = g8.append('g')
+          .attr('transform', `translate(0, ${innerHeight})`);
+      const yAxisG = g8.append('g');
+
+      xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+
+            if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+        d3.csv('/static/js/open-interest/binance-' + selectedVar + '-LTCUSDT-open-interest-' +file_name+ '.csv', row, data => {
+           xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();
+
+            g8.selectAll('circle').data(data)
+            .enter().append('circle')
+                .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+            xAxisG.call(xAxis);
+            yAxisG.call(yAxis);
+        });
+      }
+    </script>
+
+
+<br> binance XLMUSDT OI in USDT
+<button id = "1h" onclick="update9('1h')">  1 Hour </button>
+    <button id = "2h" onclick="update9('2h')">  2 Hours </button>
+    <button id = "12h" onclick="update9('12h')">  12 Hours </button>
+    <button id = "1d" onclick="update9('1d')">  1 Day </button>
+    <button id = "1d" onclick="update9('3d')">  3 Days </button>
+    <label>
+        <input id="check9" type="checkbox" > Coin Denominated
+      </label>
+    <br>
+    <svg id = "svg9" width="890" height="450"></svg>
+
+   <script> 
+
+
+    const svg9 = d3.select('#svg9');
+
+   
+
+    function update9(selectedVar){
+        var isChecked = document.getElementById("check9").checked;
+
+            const width = svg9.attr('width');
+      const height = svg9.attr('height');
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+      
+      svg9.selectAll("*").remove();
+
+            //d3.selectAll('svg2 > *').remove();
+
+
+      const g9 = svg9.append('g')
+          .attr('transform', `translate(${margin.left},${margin.top})`);
+      const xAxisG = g9.append('g')
+          .attr('transform', `translate(0, ${innerHeight})`);
+      const yAxisG = g9.append('g');
+
+      xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+            if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+
+
+        d3.csv('/static/js/open-interest/binance-' + selectedVar + '-XLMUSDT-open-interest-' +file_name+ '.csv', row, data => {
+           xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();
+
+            g9.selectAll('circle').data(data)
+            .enter().append('circle')
+                .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+            xAxisG.call(xAxis);
+            yAxisG.call(yAxis);
+        });
+      }
+    </script>
+
+
+<br> binance XRPUSDT OI in USDT
+<button id = "1h" onclick="update11('1h')">  1 Hour </button>
+    <button id = "2h" onclick="update11('2h')">  2 Hours </button>
+    <button id = "12h" onclick="update11('12h')">  12 Hours </button>
+    <button id = "1d" onclick="update11('1d')">  1 Day </button>
+    <button id = "1d" onclick="update11('3d')">  3 Days </button>
+    <label>
+        <input id="check11" type="checkbox" > Coin Denominated
+      </label>
+    <br>
+    <svg id = "svg11" width="890" height="450"></svg>
+
+   <script> 
+
+
+    const svg11 = d3.select('#svg11');
+
+   
+
+    function update11(selectedVar){
+        var isChecked = document.getElementById("check11").checked;
+            const width = svg11.attr('width');
+      const height = svg11.attr('height');
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+      
+      svg11.selectAll("*").remove();
+
+            //d3.selectAll('svg2 > *').remove();
+
+
+      const g11 = svg11.append('g')
+          .attr('transform', `translate(${margin.left},${margin.top})`);
+      const xAxisG = g11.append('g')
+          .attr('transform', `translate(0, ${innerHeight})`);
+      const yAxisG = g11.append('g');
+
+      xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+
+            if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+
+        d3.csv('/static/js/open-interest/binance-' + selectedVar + '-XRPUSDT-open-interest-' +file_name+ '.csv', row, data => {
+           xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();
+
+            g11.selectAll('circle').data(data)
+            .enter().append('circle')
+                .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+            xAxisG.call(xAxis);
+            yAxisG.call(yAxis);
+        });
+      }
+      update7('2h')
+      update8('2h')
+      update9('2h')
+      update11('2h')
+
+    </script>
+
+<br> binance XTZUSDT OI in USDT
+<button id = "1h" onclick="update12('1h')">  1 Hour </button>
+    <button id = "2h" onclick="update12('2h')">  2 Hours </button>
+    <button id = "12h" onclick="update12('12h')">  12 Hours </button>
+    <button id = "1d" onclick="update12('1d')">  1 Day </button>
+    <button id = "1d" onclick="update12('3d')">  3 Days </button>
+    <label>
+        <input id="check12" type="checkbox" > Coin Denominated
+      </label>
+    <br>
+    <svg id = "svg12" width="890" height="450"></svg>
+
+   <script> 
+
+
+    const svg12 = d3.select('#svg12');
+
+   
+
+    function update12(selectedVar){
+        var isChecked = document.getElementById("check12").checked;
+
+            const width = svg12.attr('width');
+      const height = svg12.attr('height');
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+      
+      svg12.selectAll("*").remove();
+
+            //d3.selectAll('svg2 > *').remove();
+
+
+      const g12 = svg12.append('g')
+          .attr('transform', `translate(${margin.left},${margin.top})`);
+      const xAxisG = g12.append('g')
+          .attr('transform', `translate(0, ${innerHeight})`);
+      const yAxisG = g12.append('g');
+
+      xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+
+
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+
+            if (isChecked){
+    file_name = 'coin'
+}
+else{
+    file_name = 'usd'
+}
+        d3.csv('/static/js/open-interest/binance-' + selectedVar + '-XTZUSDT-open-interest-' +file_name+ '.csv', row, data => {
+           xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();
+
+            g12.selectAll('circle').data(data)
+            .enter().append('circle')
+                .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+            xAxisG.call(xAxis);
+            yAxisG.call(yAxis);
+        });
+      }
+
+      update12('2h')
+
+    </script>
+
+<br>binance XMRUSDT OI in USDT
+<button id = "1h" onclick="update200('1h')">  1 Hour </button>
+<button id = "2h" onclick="update200('2h')">  2 Hours </button>
+<button id = "12h" onclick="update200('12h')">  12 Hours </button>
+<button id = "1d" onclick="update200('1d')">  1 Day </button>
+<button id = "1d" onclick="update200('3d')">  3 Days </button>
+<label>
+    <input id="check200" type="checkbox" > Coin Denominated
+  </label>
+<br>
+<svg id = "svg200" width="890" height="450"></svg>
+
+<script> 
+
+
+const svg200 = d3.select('#svg200');
+
+
+
+function update200(selectedVar){
+    var isChecked = document.getElementById("check200").checked;
+
+
+if (isChecked){
+file_name = 'coin'
+}
+else{
+file_name = 'usd'
+}
+        const width = svg200.attr('width');
+  const height = svg200.attr('height');
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
+  
+  svg200.selectAll("*").remove();
+
+        //d3.selectAll('svg2 > *').remove();
+
+
+  const g200 = svg200.append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+  const xAxisG = g200.append('g')
+      .attr('transform', `translate(0, ${innerHeight})`);
+  const yAxisG = g200.append('g');
+
+  xAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', innerWidth / 2)
+      .attr('y', 100)
+      .text(xLabel);
+
+  yAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', -innerHeight / 2)
+      .attr('y', -60)
+      .attr('transform', `rotate(-90)`)
+      .style('text-anchor', 'middle')
+      .text(yLabel);
+
+
+        const xScale = d3.scaleTime();
+        const yScale = d3.scaleLinear();
+
+        const xAxis = d3.axisBottom()
+            .scale(xScale)
+            .tickPadding(15)
+            .tickSize(-innerHeight);
+
+        const yAxis = d3.axisLeft()
+            .scale(yScale)
+            .ticks(5)
+            .tickPadding(15)
+            .tickSize(-innerWidth);
+            
+        
+        const row = d => {
+            d.date = new Date(d.date);
+            d.value = +d.value;
+            return d;
+        };
+
+
+    d3.csv('/static/js/open-interest/binance-' + selectedVar + '-XMRUSDT-open-interest-' +file_name+ '.csv', row, data => {
+       xScale
+        .domain(d3.extent(data, xValue))
+        .range([0, innerWidth])
+        .nice();
+
+        yScale
+        .domain(d3.extent(data, yValue))
+        .range([innerHeight, 0])
+        .nice();
+
+        g200.selectAll('circle').data(data)
+        .enter().append('circle')
+            .attr('cx', d => xScale(xValue(d)))
+            .attr('cy', d => yScale(yValue(d)))
+            .attr('fill-opacity', .4)
+            .attr('r', 5)
+            .style("fill", "steelblue")
+        
+        xAxisG.call(xAxis);
+        yAxisG.call(yAxis);
+    });
+  }
+</script>
+
+
+<br>binance IOSTUSDT OI in USDT
+<button id = "1h" onclick="update300('1h')">  1 Hour </button>
+<button id = "2h" onclick="update300('2h')">  2 Hours </button>
+<button id = "12h" onclick="update300('12h')">  12 Hours </button>
+<button id = "1d" onclick="update300('1d')">  1 Day </button>
+
+<button id = "1d" onclick="update300('3d')"> 3 Days </button>
+<label>
+    <input id="check300" type="checkbox" > Coin Denominated
+  </label>
+
+<br>
+<svg id = "svg300" width="890" height="450"></svg>
+
+<script> 
+
+
+const svg300 = d3.select('#svg300');
+
+
+
+function update300(selectedVar){
+    var isChecked = document.getElementById("check300").checked;
+
+
+if (isChecked){
+file_name = 'coin'
+}
+else{
+file_name = 'usd'
+}
+        const width = svg300.attr('width');
+  const height = svg300.attr('height');
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
+  
+  svg300.selectAll("*").remove();
+
+        //d3.selectAll('svg2 > *').remove();
+
+
+  const g300 = svg300.append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+  const xAxisG = g300.append('g')
+      .attr('transform', `translate(0, ${innerHeight})`);
+  const yAxisG = g300.append('g');
+
+  xAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', innerWidth / 2)
+      .attr('y', 100)
+      .text(xLabel);
+
+  yAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', -innerHeight / 2)
+      .attr('y', -60)
+      .attr('transform', `rotate(-90)`)
+      .style('text-anchor', 'middle')
+      .text(yLabel);
+
+
+        const xScale = d3.scaleTime();
+        const yScale = d3.scaleLinear();
+
+        const xAxis = d3.axisBottom()
+            .scale(xScale)
+            .tickPadding(15)
+            .tickSize(-innerHeight);
+
+        const yAxis = d3.axisLeft()
+            .scale(yScale)
+            .ticks(5)
+            .tickPadding(15)
+            .tickSize(-innerWidth);
+            
+        
+        const row = d => {
+            d.date = new Date(d.date);
+            d.value = +d.value;
+            return d;
+        };
+
+
+    d3.csv('/static/js/open-interest/binance-' + selectedVar + '-IOSTUSDT-open-interest-' +file_name+ '.csv', row, data => {
+       xScale
+        .domain(d3.extent(data, xValue))
+        .range([0, innerWidth])
+        .nice();
+
+        yScale
+        .domain(d3.extent(data, yValue))
+        .range([innerHeight, 0])
+        .nice();
+
+        g300.selectAll('circle').data(data)
+        .enter().append('circle')
+            .attr('cx', d => xScale(xValue(d)))
+            .attr('cy', d => yScale(yValue(d)))
+            .attr('fill-opacity', .4)
+            .attr('r', 5)
+            .style("fill", "steelblue")
+        
+        xAxisG.call(xAxis);
+        yAxisG.call(yAxis);
+    });
+  }
+</script>
+
+
+
+<br>binance EOSUSDT OI in USDT
+<button id = "1h" onclick="update400('1h')">  1 Hour </button>
+<button id = "2h" onclick="update400('2h')">  2 Hours </button>
+<button id = "12h" onclick="update400('12h')">  12 Hours </button>
+<button id = "1d" onclick="update400('1d')">  1 Day </button>
+<button id = "1d" onclick="update400('3d')">  3 Days </button>
+<label>
+    <input id="check400" type="checkbox" > Coin Denominated
+  </label>
+<br>
+<svg id = "svg400" width="890" height="450"></svg>
+
+<script> 
+
+
+const svg400 = d3.select('#svg400');
+
+
+
+function update400(selectedVar){
+    var isChecked = document.getElementById("check400").checked;
+
+
+if (isChecked){
+file_name = 'coin'
+}
+else{
+file_name = 'usd'
+}
+
+        const width = svg400.attr('width');
+  const height = svg400.attr('height');
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
+  
+  svg400.selectAll("*").remove();
+
+        //d3.selectAll('svg2 > *').remove();
+
+
+  const g400 = svg400.append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+  const xAxisG = g400.append('g')
+      .attr('transform', `translate(0, ${innerHeight})`);
+  const yAxisG = g400.append('g');
+
+  xAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', innerWidth / 2)
+      .attr('y', 100)
+      .text(xLabel);
+
+  yAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', -innerHeight / 2)
+      .attr('y', -60)
+      .attr('transform', `rotate(-90)`)
+      .style('text-anchor', 'middle')
+      .text(yLabel);
+
+
+        const xScale = d3.scaleTime();
+        const yScale = d3.scaleLinear();
+
+        const xAxis = d3.axisBottom()
+            .scale(xScale)
+            .tickPadding(15)
+            .tickSize(-innerHeight);
+
+        const yAxis = d3.axisLeft()
+            .scale(yScale)
+            .ticks(5)
+            .tickPadding(15)
+            .tickSize(-innerWidth);
+            
+        
+        const row = d => {
+            d.date = new Date(d.date);
+            d.value = +d.value;
+            return d;
+        };
+
+
+    d3.csv('/static/js/open-interest/binance-' + selectedVar + '-EOSUSDT-open-interest-' +file_name+ '.csv', row, data => {
+       xScale
+        .domain(d3.extent(data, xValue))
+        .range([0, innerWidth])
+        .nice();
+
+        yScale
+        .domain(d3.extent(data, yValue))
+        .range([innerHeight, 0])
+        .nice();
+
+        g400.selectAll('circle').data(data)
+        .enter().append('circle')
+            .attr('cx', d => xScale(xValue(d)))
+            .attr('cy', d => yScale(yValue(d)))
+            .attr('fill-opacity', .6)
+            .attr('r', 5)
+            .style("fill", "steelblue")
+        
+        xAxisG.call(xAxis);
+        yAxisG.call(yAxis);
+    });
+  }
+</script>
+
+
+
+<br>binance ZECUSDT OI in USDT
+<button id = "1h" onclick="update500('1h')">  1 Hour </button>
+<button id = "2h" onclick="update500('2h')">  2 Hours </button>
+<button id = "12h" onclick="update500('12h')">  12 Hours </button>
+<button id = "1d" onclick="update500('1d')">  1 Day </button>
+<button id = "1d" onclick="update500('3d')">  3 Days </button>
+<label>
+    <input id="check500" type="checkbox" > Coin Denominated
+  </label>
+
+<br>
+<svg id = "svg500" width="890" height="450"></svg>
+
+<script> 
+
+
+const svg500 = d3.select('#svg500');
+
+
+
+function update500(selectedVar){
+    var isChecked = document.getElementById("check500").checked;
+
+
+if (isChecked){
+file_name = 'coin'
+}
+else{
+file_name = 'usd'
+}
+        const width = svg500.attr('width');
+  const height = svg500.attr('height');
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
+  
+  svg500.selectAll("*").remove();
+
+        //d3.selectAll('svg2 > *').remove();
+
+
+  const g500 = svg500.append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+  const xAxisG = g500.append('g')
+      .attr('transform', `translate(0, ${innerHeight})`);
+  const yAxisG = g500.append('g');
+
+  xAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', innerWidth / 2)
+      .attr('y', 100)
+      .text(xLabel);
+
+  yAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', -innerHeight / 2)
+      .attr('y', -60)
+      .attr('transform', `rotate(-90)`)
+      .style('text-anchor', 'middle')
+      .text(yLabel);
+
+
+        const xScale = d3.scaleTime();
+        const yScale = d3.scaleLinear();
+
+        const xAxis = d3.axisBottom()
+            .scale(xScale)
+            .tickPadding(15)
+            .tickSize(-innerHeight);
+
+        const yAxis = d3.axisLeft()
+            .scale(yScale)
+            .ticks(5)
+            .tickPadding(15)
+            .tickSize(-innerWidth);
+            
+        
+        const row = d => {
+            d.date = new Date(d.date);
+            d.value = +d.value;
+            return d;
+        };
+
+
+    d3.csv('/static/js/open-interest/binance-' + selectedVar + '-ZECUSDT-open-interest-' +file_name+ '.csv', row, data => {
+       xScale
+        .domain(d3.extent(data, xValue))
+        .range([0, innerWidth])
+        .nice();
+
+        yScale
+        .domain(d3.extent(data, yValue))
+        .range([innerHeight, 0])
+        .nice();
+
+        g500.selectAll('circle').data(data)
+        .enter().append('circle')
+            .attr('cx', d => xScale(xValue(d)))
+            .attr('cy', d => yScale(yValue(d)))
+            .attr('fill-opacity', .6)
+            .attr('r', 5)
+            .style("fill", "steelblue")
+        
+        xAxisG.call(xAxis);
+        yAxisG.call(yAxis);
+    });
+  }
+</script>
+
+
+<br>binance IOTAUSDT OI in USDT
+<button id = "1h" onclick="update60('1h')">  1 Hour </button>
+<button id = "2h" onclick="update60('2h')">  2 Hours </button>
+<button id = "12h" onclick="update60('12h')">  12 Hours </button>
+<button id = "1d" onclick="update60('1d')">  1 Day </button>
+<button id = "1d" onclick="update60('3d')">  3 Days </button>
+
+<label>
+    <input id="check60" type="checkbox" > Coin Denominated
+  </label>
+<br>
+<svg id = "svg60" width="890" height="450"></svg>
+
+<script> 
+
+
+const svg60 = d3.select('#svg60');
+
+
+
+function update60(selectedVar){
+    var isChecked = document.getElementById("check60").checked;
+
+
+if (isChecked){
+file_name = 'coin'
+}
+else{
+file_name = 'usd'
+}
+        const width = svg60.attr('width');
+  const height = svg60.attr('height');
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
+  
+  svg60.selectAll("*").remove();
+
+        //d3.selectAll('svg2 > *').remove();
+
+
+  const g60 = svg60.append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+  const xAxisG = g60.append('g')
+      .attr('transform', `translate(0, ${innerHeight})`);
+  const yAxisG = g60.append('g');
+
+  xAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', innerWidth / 2)
+      .attr('y', 100)
+      .text(xLabel);
+
+  yAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', -innerHeight / 2)
+      .attr('y', -60)
+      .attr('transform', `rotate(-90)`)
+      .style('text-anchor', 'middle')
+      .text(yLabel);
+
+
+        const xScale = d3.scaleTime();
+        const yScale = d3.scaleLinear();
+
+        const xAxis = d3.axisBottom()
+            .scale(xScale)
+            .tickPadding(15)
+            .tickSize(-innerHeight);
+
+        const yAxis = d3.axisLeft()
+            .scale(yScale)
+            .ticks(5)
+            .tickPadding(15)
+            .tickSize(-innerWidth);
+            
+        
+        const row = d => {
+            d.date = new Date(d.date);
+            d.value = +d.value;
+            return d;
+        };
+
+
+    d3.csv('/static/js/open-interest/binance-' + selectedVar + '-IOTAUSDT-open-interest-' +file_name+ '.csv', row, data => {
+       xScale
+        .domain(d3.extent(data, xValue))
+        .range([0, innerWidth])
+        .nice();
+
+        yScale
+        .domain(d3.extent(data, yValue))
+        .range([innerHeight, 0])
+        .nice();
+
+        g60.selectAll('circle').data(data)
+        .enter().append('circle')
+            .attr('cx', d => xScale(xValue(d)))
+            .attr('cy', d => yScale(yValue(d)))
+            .attr('fill-opacity', .6)
+            .attr('r', 5)
+            .style("fill", "steelblue")
+        
+        xAxisG.call(xAxis);
+        yAxisG.call(yAxis);
+    });
+  }
+  
+
+</script>
+
+
+
+<br>binance DASHUSDT OI in USDT
+<button id = "1h" onclick="update70('1h')">  1 Hour </button>
+<button id = "2h" onclick="update70('2h')">  2 Hours </button>
+<button id = "12h" onclick="update70('12h')">  12 Hours </button>
+<button id = "1d" onclick="update70('1d')">  1 Day </button>
+
+<button id = "1d" onclick="update70('3d')">  3 Days </button>
+<label>
+    <input id="check70" type="checkbox" > Coin Denominated
+  </label>
+<br>
+<svg id = "svg70" width="890" height="450"></svg>
+
+<script> 
+
+
+const svg70 = d3.select('#svg70');
+
+
+
+function update70(selectedVar){
+    var isChecked = document.getElementById("check70").checked;
+
+
+if (isChecked){
+file_name = 'coin'
+}
+else{
+file_name = 'usd'
+}
+        const width = svg70.attr('width');
+  const height = svg70.attr('height');
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
+  
+  svg70.selectAll("*").remove();
+
+        //d3.selectAll('svg2 > *').remove();
+
+
+  const g70 = svg70.append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+  const xAxisG = g70.append('g')
+      .attr('transform', `translate(0, ${innerHeight})`);
+  const yAxisG = g70.append('g');
+
+  xAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', innerWidth / 2)
+      .attr('y', 100)
+      .text(xLabel);
+
+  yAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', -innerHeight / 2)
+      .attr('y', -60)
+      .attr('transform', `rotate(-90)`)
+      .style('text-anchor', 'middle')
+      .text(yLabel);
+
+
+        const xScale = d3.scaleTime();
+        const yScale = d3.scaleLinear();
+
+        const xAxis = d3.axisBottom()
+            .scale(xScale)
+            .tickPadding(15)
+            .tickSize(-innerHeight);
+
+        const yAxis = d3.axisLeft()
+            .scale(yScale)
+            .ticks(5)
+            .tickPadding(15)
+            .tickSize(-innerWidth);
+            
+        
+        const row = d => {
+            d.date = new Date(d.date);
+            d.value = +d.value;
+            return d;
+        };
+
+
+    d3.csv('/static/js/open-interest/binance-' + selectedVar + '-DASHUSDT-open-interest-' +file_name+ '.csv', row, data => {
+       xScale
+        .domain(d3.extent(data, xValue))
+        .range([0, innerWidth])
+        .nice();
+
+        yScale
+        .domain(d3.extent(data, yValue))
+        .range([innerHeight, 0])
+        .nice();
+
+        g70.selectAll('circle').data(data)
+        .enter().append('circle')
+            .attr('cx', d => xScale(xValue(d)))
+            .attr('cy', d => yScale(yValue(d)))
+            .attr('fill-opacity', .6)
+            .attr('r', 5)
+            .style("fill", "steelblue")
+        
+        xAxisG.call(xAxis);
+        yAxisG.call(yAxis);
+    });
+  }
+</script>
+
+
+
+<br>binance TRXUSDT OI in USDT
+<button id = "1h" onclick="update80('1h')">  1 Hour </button>
+<button id = "2h" onclick="update80('2h')">  2 Hours </button>
+<button id = "12h" onclick="update80('12h')">  12 Hours </button>
+<button id = "1d" onclick="update80('1d')">  1 Day </button>
+<button id = "1d" onclick="update80('3d')"> 3 Days </button>
+<label>
+    <input id="check80" type="checkbox" > Coin Denominated
+  </label>
+<br>
+<svg id = "svg80" width="890" height="450"></svg>
+
+<script> 
+
+
+const svg80 = d3.select('#svg80');
+
+
+
+function update80(selectedVar){
+    var isChecked = document.getElementById("check80").checked;
+
+
+if (isChecked){
+file_name = 'coin'
+}
+else{
+file_name = 'usd'
+}
+
+        const width = svg80.attr('width');
+  const height = svg80.attr('height');
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
+  
+  svg80.selectAll("*").remove();
+
+        //d3.selectAll('svg2 > *').remove();
+
+
+  const g80 = svg80.append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+  const xAxisG = g80.append('g')
+      .attr('transform', `translate(0, ${innerHeight})`);
+  const yAxisG = g80.append('g');
+
+  xAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', innerWidth / 2)
+      .attr('y', 100)
+      .text(xLabel);
+
+  yAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', -innerHeight / 2)
+      .attr('y', -60)
+      .attr('transform', `rotate(-90)`)
+      .style('text-anchor', 'middle')
+      .text(yLabel);
+
+
+        const xScale = d3.scaleTime();
+        const yScale = d3.scaleLinear();
+
+        const xAxis = d3.axisBottom()
+            .scale(xScale)
+            .tickPadding(15)
+            .tickSize(-innerHeight);
+
+        const yAxis = d3.axisLeft()
+            .scale(yScale)
+            .ticks(5)
+            .tickPadding(15)
+            .tickSize(-innerWidth);
+            
+        
+        const row = d => {
+            d.date = new Date(d.date);
+            d.value = +d.value;
+            return d;
+        };
+
+
+    d3.csv('/static/js/open-interest/binance-' + selectedVar + '-TRXUSDT-open-interest-' +file_name+ '.csv', row, data => {
+       xScale
+        .domain(d3.extent(data, xValue))
+        .range([0, innerWidth])
+        .nice();
+
+        yScale
+        .domain(d3.extent(data, yValue))
+        .range([innerHeight, 0])
+        .nice();
+
+        g80.selectAll('circle').data(data)
+        .enter().append('circle')
+            .attr('cx', d => xScale(xValue(d)))
+            .attr('cy', d => yScale(yValue(d)))
+            .attr('fill-opacity', .6)
+            .attr('r', 5)
+            .style("fill", "steelblue")
+        
+        xAxisG.call(xAxis);
+        yAxisG.call(yAxis);
+    });
+  }
+</script>
+
+
+
+<br>binance NEOUSDT OI in USDT
+<button id = "1h" onclick="update90('1h')">  1 Hour </button>
+<button id = "2h" onclick="update90('2h')">  2 Hours </button>
+<button id = "12h" onclick="update90('12h')">  12 Hours </button>
+<button id = "1d" onclick="update90('1d')">  1 Day </button>
+<button id = "1d" onclick="update90('3d')">  3 Days </button>
+<label>
+    <input id="check90" type="checkbox" > Coin Denominated
+  </label>
+
+<br>
+<svg id = "svg90" width="890" height="450"></svg>
+
+<script> 
+
+
+const svg90= d3.select('#svg90');
+
+
+
+function update90(selectedVar){
+    var isChecked = document.getElementById("check90").checked;
+
+
+if (isChecked){
+file_name = 'coin'
+}
+else{
+file_name = 'usd'
+}
+
+        const width = svg90.attr('width');
+  const height = svg90.attr('height');
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
+  
+  svg90.selectAll("*").remove();
+
+        //d3.selectAll('svg2 > *').remove();
+
+
+  const g90 = svg90.append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+  const xAxisG = g90.append('g')
+      .attr('transform', `translate(0, ${innerHeight})`);
+  const yAxisG = g90.append('g');
+
+  xAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', innerWidth / 2)
+      .attr('y', 100)
+      .text(xLabel);
+
+  yAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', -innerHeight / 2)
+      .attr('y', -60)
+      .attr('transform', `rotate(-90)`)
+      .style('text-anchor', 'middle')
+      .text(yLabel);
+
+
+        const xScale = d3.scaleTime();
+        const yScale = d3.scaleLinear();
+
+        const xAxis = d3.axisBottom()
+            .scale(xScale)
+            .tickPadding(15)
+            .tickSize(-innerHeight);
+
+        const yAxis = d3.axisLeft()
+            .scale(yScale)
+            .ticks(5)
+            .tickPadding(15)
+            .tickSize(-innerWidth);
+            
+        
+        const row = d => {
+            d.date = new Date(d.date);
+            d.value = +d.value;
+            return d;
+        };
+
+
+    d3.csv('/static/js/open-interest/binance-' + selectedVar + '-NEOUSDT-open-interest-' +file_name+ '.csv', row, data => {
+       xScale
+        .domain(d3.extent(data, xValue))
+        .range([0, innerWidth])
+        .nice();
+
+        yScale
+        .domain(d3.extent(data, yValue))
+        .range([innerHeight, 0])
+        .nice();
+
+        g90.selectAll('circle').data(data)
+        .enter().append('circle')
+            .attr('cx', d => xScale(xValue(d)))
+            .attr('cy', d => yScale(yValue(d)))
+            .attr('fill-opacity', .6)
+            .attr('r', 5)
+            .style("fill", "steelblue")
+        
+        xAxisG.call(xAxis);
+        yAxisG.call(yAxis);
+    });
+  }
+</script>
+
+
+
+<br>binance QTUMUSDT OI in USDT
+<button id = "1h" onclick="update190('1h')">  1 Hour </button>
+<button id = "2h" onclick="update190('2h')">  2 Hours </button>
+<button id = "12h" onclick="update190('12h')">  12 Hours </button>
+<button id = "1d" onclick="update190('1d')">  1 Day </button>
+<button id = "1d" onclick="update190('3d')">  3 Days </button>
+<label>
+    <input id="check100" type="checkbox" > Coin Denominated
+  </label>
+<br>
+<svg id = "svg100" width="890" height="450"></svg>
+
+<script> 
+
+
+const svg100 = d3.select('#svg100');
+
+
+
+function update190(selectedVar){
+    var isChecked = document.getElementById("check100").checked;
+
+
+if (isChecked){
+file_name = 'coin'
+}
+else{
+file_name = 'usd'
+}
+
+        const width = svg100.attr('width');
+  const height = svg100.attr('height');
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
+  
+  svg100.selectAll("*").remove();
+
+        //d3.selectAll('svg2 > *').remove();
+
+
+  const g100 = svg100.append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+  const xAxisG = g100.append('g')
+      .attr('transform', `translate(0, ${innerHeight})`);
+  const yAxisG = g100.append('g');
+
+  xAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', innerWidth / 2)
+      .attr('y', 100)
+      .text(xLabel);
+
+  yAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', -innerHeight / 2)
+      .attr('y', -60)
+      .attr('transform', `rotate(-90)`)
+      .style('text-anchor', 'middle')
+      .text(yLabel);
+
+
+        const xScale = d3.scaleTime();
+        const yScale = d3.scaleLinear();
+
+        const xAxis = d3.axisBottom()
+            .scale(xScale)
+            .tickPadding(15)
+            .tickSize(-innerHeight);
+
+        const yAxis = d3.axisLeft()
+            .scale(yScale)
+            .ticks(5)
+            .tickPadding(15)
+            .tickSize(-innerWidth);
+            
+        
+        const row = d => {
+            d.date = new Date(d.date);
+            d.value = +d.value;
+            return d;
+        };
+
+
+    d3.csv('/static/js/open-interest/binance-' + selectedVar + '-QTUMUSDT-open-interest-' +file_name+ '.csv', row, data => {
+       xScale
+        .domain(d3.extent(data, xValue))
+        .range([0, innerWidth])
+        .nice();
+
+        yScale
+        .domain(d3.extent(data, yValue))
+        .range([innerHeight, 0])
+        .nice();
+
+        g100.selectAll('circle').data(data)
+        .enter().append('circle')
+            .attr('cx', d => xScale(xValue(d)))
+            .attr('cy', d => yScale(yValue(d)))
+            .attr('fill-opacity', .6)
+            .attr('r', 5)
+            .style("fill", "steelblue")
+        
+        xAxisG.call(xAxis);
+        yAxisG.call(yAxis);
+    });
+  }
+</script>
+
+
+
+<br>binance ONTUSDT OI in USDT
+<button id = "1h" onclick="update110('1h')">  1 Hour </button>
+<button id = "2h" onclick="update110('2h')">  2 Hours </button>
+<button id = "12h" onclick="update110('12h')">  12 Hours </button>
+<button id = "1d" onclick="update110('1d')">  1 Day </button>
+<button id = "1d" onclick="update110('3d')">  3 Days </button>
+<label>
+    <input id="check110" type="checkbox" > Coin Denominated
+  </label>
+<br>
+<svg id = "svg110" width="890" height="450"></svg>
+
+<script> 
+
+
+const svg110 = d3.select('#svg110');
+
+
+
+function update110(selectedVar){
+    var isChecked = document.getElementById("check110").checked;
+
+
+if (isChecked){
+file_name = 'coin'
+}
+else{
+file_name = 'usd'
+}
+
+        const width = svg110.attr('width');
+  const height = svg110.attr('height');
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
+  
+  svg110.selectAll("*").remove();
+
+        //d3.selectAll('svg2 > *').remove();
+
+
+  const g110 = svg110.append('g')
+      .attr('transform', `translate(${margin.left},${margin.top})`);
+  const xAxisG = g110.append('g')
+      .attr('transform', `translate(0, ${innerHeight})`);
+  const yAxisG = g110.append('g');
+
+  xAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', innerWidth / 2)
+      .attr('y', 100)
+      .text(xLabel);
+
+  yAxisG.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', -innerHeight / 2)
+      .attr('y', -60)
+      .attr('transform', `rotate(-90)`)
+      .style('text-anchor', 'middle')
+      .text(yLabel);
+
+
+        const xScale = d3.scaleTime();
+        const yScale = d3.scaleLinear();
+
+        const xAxis = d3.axisBottom()
+            .scale(xScale)
+            .tickPadding(15)
+            .tickSize(-innerHeight);
+
+        const yAxis = d3.axisLeft()
+            .scale(yScale)
+            .ticks(5)
+            .tickPadding(15)
+            .tickSize(-innerWidth);
+            
+        
+        const row = d => {
+            d.date = new Date(d.date);
+            d.value = +d.value;
+            return d;
+        };
+
+
+    d3.csv('/static/js/open-interest/binance-' + selectedVar + '-ONTUSDT-open-interest-' +file_name+ '.csv', row, data => {
+       xScale
+        .domain(d3.extent(data, xValue))
+        .range([0, innerWidth])
+        .nice();
+
+        yScale
+        .domain(d3.extent(data, yValue))
+        .range([innerHeight, 0])
+        .nice();
+
+        g110.selectAll('circle').data(data)
+        .enter().append('circle')
+            .attr('cx', d => xScale(xValue(d)))
+            .attr('cy', d => yScale(yValue(d)))
+            .attr('fill-opacity', .6)
+            .attr('r', 5)
+            .style("fill", "steelblue")
+        
+        xAxisG.call(xAxis);
+        yAxisG.call(yAxis);
+    });
+  }
+
+
+
+  
+  update200('2h');
+  update300('2h');
+  update400('2h');
+  update500('2h');
+  update60('2h');
+  update70('2h');
+  update80('2h');
+  update90('2h');
+  update190('2h');
+  update110('2h');
+
+</script>
+
+<br>binance BATUSDT OI in USDT
+<button id = "1h" onclick="update120('1h')">  1 Hour </button>
+<button id = "2h" onclick="update120('2h')">  2 Hours </button>
+<button id = "12h" onclick="update120('12h')">  12 Hours </button>
+<button id = "1d" onclick="update120('1d')">  1 Day </button>
+<button id = "1d" onclick="update120('3d')">  3 Days </button>
+<label>
+    <input id="check120" type="checkbox" > Coin Denominated
+  </label>
+<br>
+<svg id = "svg120" width="890" height="450"></svg>
+
+<script> 
+
+
+    const svg120 = d3.select('#svg120');
+    
+    
+    
+    function update120(selectedVar){
+        var isChecked = document.getElementById("check120").checked;
+    
+    
+    if (isChecked){
+    file_name = 'coin'
+    }
+    else{
+    file_name = 'usd'
+    }
+    
+            const width = svg100.attr('width');
+      const height = svg100.attr('height');
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+      
+      svg120.selectAll("*").remove();
+    
+            //d3.selectAll('svg2 > *').remove();
+    
+    
+      const g120 = svg120.append('g')
+          .attr('transform', `translate(${margin.left},${margin.top})`);
+      const xAxisG = g120.append('g')
+          .attr('transform', `translate(0, ${innerHeight})`);
+      const yAxisG = g120.append('g');
+    
+      xAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', innerWidth / 2)
+          .attr('y', 100)
+          .text(xLabel);
+    
+      yAxisG.append('text')
+          .attr('class', 'axis-label')
+          .attr('x', -innerHeight / 2)
+          .attr('y', -60)
+          .attr('transform', `rotate(-90)`)
+          .style('text-anchor', 'middle')
+          .text(yLabel);
+    
+    
+            const xScale = d3.scaleTime();
+            const yScale = d3.scaleLinear();
+    
+            const xAxis = d3.axisBottom()
+                .scale(xScale)
+                .tickPadding(15)
+                .tickSize(-innerHeight);
+    
+            const yAxis = d3.axisLeft()
+                .scale(yScale)
+                .ticks(5)
+                .tickPadding(15)
+                .tickSize(-innerWidth);
+                
+            
+            const row = d => {
+                d.date = new Date(d.date);
+                d.value = +d.value;
+                return d;
+            };
+    
+    
+        d3.csv('/static/js/open-interest/binance-' + selectedVar + '-BATUSDT-open-interest-' +file_name+ '.csv', row, data => {
+           xScale
+            .domain(d3.extent(data, xValue))
+            .range([0, innerWidth])
+            .nice();
+    
+            yScale
+            .domain(d3.extent(data, yValue))
+            .range([innerHeight, 0])
+            .nice();
+    
+            g120.selectAll('circle').data(data)
+            .enter().append('circle')
+                .attr('cx', d => xScale(xValue(d)))
+                .attr('cy', d => yScale(yValue(d)))
+                .attr('fill-opacity', .6)
+                .attr('r', 5)
+                .style("fill", "steelblue")
+            
+            xAxisG.call(xAxis);
+            yAxisG.call(yAxis);
+        });
+      }
+    </script>
+
+<br>binance VETUSDT OI in USDT
+<button id = "1h" onclick="update130('1h')">  1 Hour </button>
+<button id = "2h" onclick="update130('2h')">  2 Hours </button>
+<button id = "12h" onclick="update130('12h')">  12 Hours </button>
+<button id = "1d" onclick="update130('1d')">  1 Day </button>
+<button id = "1d" onclick="update130('3d')">  3 Days </button>
+<label>
+    <input id="check130" type="checkbox" > Coin Denominated
+  </label>
+<br>
+<svg id = "svg130" width="890" height="450"></svg>
+
+
+    <script> 
+
+
+        const svg130 = d3.select('#svg130');
+        
+        
+        
+        function update130(selectedVar){
+            var isChecked = document.getElementById("check130").checked;
+        
+        
+        if (isChecked){
+        file_name = 'coin'
+        }
+        else{
+        file_name = 'usd'
+        }
+        
+                const width = svg100.attr('width');
+          const height = svg100.attr('height');
+          const innerWidth = width - margin.left - margin.right;
+          const innerHeight = height - margin.top - margin.bottom;
+          
+          svg130.selectAll("*").remove();
+        
+                //d3.selectAll('svg2 > *').remove();
+        
+        
+          const g130 = svg130.append('g')
+              .attr('transform', `translate(${margin.left},${margin.top})`);
+          const xAxisG = g130.append('g')
+              .attr('transform', `translate(0, ${innerHeight})`);
+          const yAxisG = g130.append('g');
+        
+          xAxisG.append('text')
+              .attr('class', 'axis-label')
+              .attr('x', innerWidth / 2)
+              .attr('y', 100)
+              .text(xLabel);
+        
+          yAxisG.append('text')
+              .attr('class', 'axis-label')
+              .attr('x', -innerHeight / 2)
+              .attr('y', -60)
+              .attr('transform', `rotate(-90)`)
+              .style('text-anchor', 'middle')
+              .text(yLabel);
+        
+        
+                const xScale = d3.scaleTime();
+                const yScale = d3.scaleLinear();
+        
+                const xAxis = d3.axisBottom()
+                    .scale(xScale)
+                    .tickPadding(15)
+                    .tickSize(-innerHeight);
+        
+                const yAxis = d3.axisLeft()
+                    .scale(yScale)
+                    .ticks(5)
+                    .tickPadding(15)
+                    .tickSize(-innerWidth);
+                    
+                
+                const row = d => {
+                    d.date = new Date(d.date);
+                    d.value = +d.value;
+                    return d;
+                };
+        
+        
+            d3.csv('/static/js/open-interest/binance-' + selectedVar + '-VETUSDT-open-interest-' +file_name+ '.csv', row, data => {
+               xScale
+                .domain(d3.extent(data, xValue))
+                .range([0, innerWidth])
+                .nice();
+        
+                yScale
+                .domain(d3.extent(data, yValue))
+                .range([innerHeight, 0])
+                .nice();
+        
+                g130.selectAll('circle').data(data)
+                .enter().append('circle')
+                    .attr('cx', d => xScale(xValue(d)))
+                    .attr('cy', d => yScale(yValue(d)))
+                    .attr('fill-opacity', .6)
+                    .attr('r', 5)
+                    .style("fill", "steelblue")
+                
+                xAxisG.call(xAxis);
+                yAxisG.call(yAxis);
+            });
+          }
+          update120('2h');
+          update130('2h');
+        </script>
+
+<br>binance ETCUSDT OI in USDT
+<button id = "1h" onclick="update190('1h')">  1 Hour </button>
+<button id = "2h" onclick="update190('2h')">  2 Hours </button>
+<button id = "12h" onclick="update190('12h')">  12 Hours </button>
+<button id = "1d" onclick="update190('1d')">  1 Day </button>
+<button id = "1d" onclick="update190('3d')">  3 Days </button>
+<label>
+    <input id="check190" type="checkbox" > Coin Denominated
+  </label>
+<br>
+<svg id = "svg190" width="890" height="450"></svg>
+
+
+    <script> 
+
+
+        const svg190 = d3.select('#svg190');
+        
+        
+        
+        function update190(selectedVar){
+            var isChecked = document.getElementById("check190").checked;
+        
+        
+        if (isChecked){
+        file_name = 'coin'
+        }
+        else{
+        file_name = 'usd'
+        }
+        
+                const width = svg100.attr('width');
+          const height = svg100.attr('height');
+          const innerWidth = width - margin.left - margin.right;
+          const innerHeight = height - margin.top - margin.bottom;
+          
+          svg190.selectAll("*").remove();
+        
+                //d3.selectAll('svg2 > *').remove();
+        
+        
+          const g190 = svg190.append('g')
+              .attr('transform', `translate(${margin.left},${margin.top})`);
+          const xAxisG = g190.append('g')
+              .attr('transform', `translate(0, ${innerHeight})`);
+          const yAxisG = g190.append('g');
+        
+          xAxisG.append('text')
+              .attr('class', 'axis-label')
+              .attr('x', innerWidth / 2)
+              .attr('y', 100)
+              .text(xLabel);
+        
+          yAxisG.append('text')
+              .attr('class', 'axis-label')
+              .attr('x', -innerHeight / 2)
+              .attr('y', -60)
+              .attr('transform', `rotate(-90)`)
+              .style('text-anchor', 'middle')
+              .text(yLabel);
+        
+        
+                const xScale = d3.scaleTime();
+                const yScale = d3.scaleLinear();
+        
+                const xAxis = d3.axisBottom()
+                    .scale(xScale)
+                    .tickPadding(15)
+                    .tickSize(-innerHeight);
+        
+                const yAxis = d3.axisLeft()
+                    .scale(yScale)
+                    .ticks(5)
+                    .tickPadding(15)
+                    .tickSize(-innerWidth);
+                    
+                
+                const row = d => {
+                    d.date = new Date(d.date);
+                    d.value = +d.value;
+                    return d;
+                };
+        
+        
+            d3.csv('/static/js/open-interest/binance-' + selectedVar + '-ETCUSDT-open-interest-' +file_name+ '.csv', row, data => {
+               xScale
+                .domain(d3.extent(data, xValue))
+                .range([0, innerWidth])
+                .nice();
+        
+                yScale
+                .domain(d3.extent(data, yValue))
+                .range([innerHeight, 0])
+                .nice();
+        
+                g190.selectAll('circle').data(data)
+                .enter().append('circle')
+                    .attr('cx', d => xScale(xValue(d)))
+                    .attr('cy', d => yScale(yValue(d)))
+                    .attr('fill-opacity', .6)
+                    .attr('r', 5)
+                    .style("fill", "steelblue")
+                
+                xAxisG.call(xAxis);
+                yAxisG.call(yAxis);
+            });
+          }
+          update190('2h');
+        </script>
+  </body>
+</html>
